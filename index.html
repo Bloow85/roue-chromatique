@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roue Chromatique d'Atelier (RYB)</title>
+    <style>
+        :root {
+            --bg-color: #1a1c23;
+            --panel-bg: #242832;
+            --text-color: #e2e8f0;
+            --accent-color: #3b82f6;
+            --border-color: #374151;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            user-select: none;
+        }
+
+        h1 {
+            margin: 0 0 10px 0;
+            font-size: 1.6rem;
+            text-align: center;
+        }
+
+        p.subtitle {
+            margin: 0 0 20px 0;
+            color: #94a3b8;
+            font-size: 0.95rem;
+            text-align: center;
+        }
+
+        .main-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            justify-content: center;
+            align-items: flex-start;
+            max-width: 1050px;
+            width: 100%;
+        }
+
+        .wheel-card {
+            background-color: var(--panel-bg);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .wheel-wrapper {
+            position: relative;
+            width: 420px;
+            height: 420px;
+            touch-action: none;
+            cursor: grab;
+        }
+
+        .wheel-wrapper:active {
+            cursor: grabbing;
+        }
+
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .info-panel {
+            flex: 1;
+            min-width: 320px;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .card {
+            background-color: var(--panel-bg);
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+        }
+
+        .card h2 {
+            font-size: 1.1rem;
+            margin-top: 0;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .tab-btn {
+            background-color: #1e293b;
+            color: #94a3b8;
+            border: 1px solid var(--border-color);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            background-color: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+
+        .harmony-results {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 10px;
+        }
+
+        .color-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .swatch {
+            width: 100%;
+            height: 44px;
+            border-radius: 6px;
+            border: 2px solid rgba(255,255,255,0.1);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+
+        .swatch:hover {
+            transform: scale(1.05);
+        }
+
+        .color-label {
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .color-hex {
+            font-size: 0.7rem;
+            color: #94a3b8;
+            font-family: monospace;
+        }
+
+        .shades-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .mix-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .mix-preview {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #1a1c23;
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .mix-swatch {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .slider-container {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .slider-container input[type=range] {
+            width: 100%;
+        }
+
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+
+        .mix-result-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #111827;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .mix-result-swatch {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            border: 2px solid #fff;
+        }
+
+        .badge {
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: #374151;
+            color: #cbd5e1;
+        }
+
+        .instructions {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            line-height: 1.4;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Roue Chromatique d'Atelier</h1>
+    <p class="subtitle">Disque physique rotatif traditionnel (système RYB) & simulateur de mélange pigmentaire</p>
+
+    <div class="main-container">
+        <div class="wheel-card">
+            <div class="wheel-wrapper" id="wheel-wrapper">
+                <svg id="wheel-svg" viewBox="-210 -210 420 420">
+                    <g id="base-wheel"></g>
+                    <g id="rotatable-disc">
+                        <circle cx="0" cy="0" r="140" fill="#242832" stroke="#475569" stroke-width="3" filter="drop-shadow(0 4px 8px rgba(0,0,0,0.5))"/>
+                        <circle cx="0" cy="0" r="135" fill="none" stroke="#334155" stroke-width="1" stroke-dasharray="4 4"/>
+                        <g id="disc-markings"></g>
+                        <circle cx="0" cy="0" r="28" fill="#1e293b" stroke="#cbd5e1" stroke-width="2"/>
+                        <circle cx="0" cy="0" r="10" fill="#cbd5e1"/>
+                        <path d="M 0 -135 L -8 -115 L 8 -115 Z" fill="#ef4444" stroke="#fff" stroke-width="1.5" />
+                        <text x="0" y="-95" text-anchor="middle" fill="#f8fafc" font-size="11" font-weight="bold">TEINTE CLÉ</text>
+                        <text x="0" y="98" text-anchor="middle" fill="#38bdf8" font-size="10" font-weight="bold">COMPLÉMENTAIRE</text>
+                        <path d="M 0 135 L -6 120 L 6 120 Z" fill="#38bdf8" />
+                    </g>
+                </svg>
+            </div>
+            <p class="instructions">🖱️ Cliquez et glissez sur le disque central pour faire pivoter la roue.</p>
+        </div>
+
+        <div class="info-panel">
+            <div class="card">
+                <h2>Teinte sélectionnée <span id="current-angle" class="badge">0°</span></h2>
+                <div style="display:flex; align-items:center; gap:16px;">
+                    <div id="main-swatch" style="width:54px; height:54px; border-radius:8px; border:2px solid #fff;"></div>
+                    <div>
+                        <div id="color-name" style="font-size:1.1rem; font-weight:bold;">Rouge</div>
+                        <div id="color-cat" class="badge" style="margin-top:4px; display:inline-block;">Couleur Primaire</div>
+                        <div id="color-hex-main" style="font-family:monospace; color:#94a3b8; font-size:0.85rem; margin-top:4px;">#FE2712</div>
+                    </div>
+                </div>
+
+                <div style="margin-top:14px;">
+                    <span style="font-size:0.85rem; font-weight:600;">Déclinaisons d'Atelier (Pure / Éclaircie / Rompue / Assombrie) :</span>
+                    <div class="shades-row" id="shades-container"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Harmonies Géométriques</h2>
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="setHarmony('comp')">Complémentaire</button>
+                    <button class="tab-btn" onclick="setHarmony('split')">Split-Compl.</button>
+                    <button class="tab-btn" onclick="setHarmony('triad')">Triade</button>
+                    <button class="tab-btn" onclick="setHarmony('tetrad')">Tétrade</button>
+                    <button class="tab-btn" onclick="setHarmony('analog')">Analogue</button>
+                </div>
+                <div class="harmony-results" id="harmony-container"></div>
+            </div>
+
+            <div class="card">
+                <h2>Mélange Pigmentaire (Soustractif)</h2>
+                <div class="mix-container">
+                    <div class="mix-preview">
+                        <div class="color-box">
+                            <div class="mix-swatch" id="mix-c1"></div>
+                            <span class="color-label" id="mix-label1">Couleur 1</span>
+                        </div>
+                        <div style="font-weight:bold; font-size:1.2rem;">+</div>
+                        <div class="color-box">
+                            <div class="mix-swatch" id="mix-c2"></div>
+                            <span class="color-label" id="mix-label2">Complémentaire</span>
+                        </div>
+                    </div>
+
+                    <div class="slider-container">
+                        <div class="slider-labels">
+                            <span id="ratio-label-1">50% C1</span>
+                            <span>Ratio de mélange</span>
+                            <span id="ratio-label-2">50% C2</span>
+                        </div>
+                        <input type="range" id="mix-ratio" min="0" max="100" value="50" oninput="updateMix()">
+                    </div>
+
+                    <div class="mix-result-box">
+                        <div class="mix-result-swatch" id="mix-result"></div>
+                        <div>
+                            <div style="font-size:0.85rem; font-weight:bold;">Résultat obtenu au mélange :</div>
+                            <div id="mix-desc" style="font-size:0.8rem; color:#cbd5e1; margin-top:2px;">Gris neutre chromatique / Ton rompu</div>
+                            <div id="mix-hex" style="font-family:monospace; color:#94a3b8; font-size:0.75rem;">#...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const RYB_COLORS = [
+            { name: "Rouge", hex: "#FE2712", type: "Primaire", rgb: [254, 39, 18] },
+            { name: "Rouge-Orangé", hex: "#FC600A", type: "Tertiaire", rgb: [252, 96, 10] },
+            { name: "Orange", hex: "#FB9902", type: "Secondaire", rgb: [251, 153, 2] },
+            { name: "Jaune-Orangé", hex: "#FCCC1A", type: "Tertiaire", rgb: [252, 204, 26] },
+            { name: "Jaune", hex: "#FEFE33", type: "Primaire", rgb: [254, 254, 51] },
+            { name: "Jaune-Vert", hex: "#B2D732", type: "Tertiaire", rgb: [178, 215, 50] },
+            { name: "Vert", hex: "#66B032", type: "Secondaire", rgb: [102, 176, 50] },
+            { name: "Bleu-Vert", hex: "#347C98", type: "Tertiaire", rgb: [52, 124, 152] },
+            { name: "Bleu", hex: "#0247FE", type: "Primaire", rgb: [2, 71, 254] },
+            { name: "Bleu-Violet", hex: "#4424D6", type: "Tertiaire", rgb: [68, 36, 214] },
+            { name: "Violet", hex: "#8601AF", type: "Secondaire", rgb: [134, 1, 175] },
+            { name: "Rouge-Violet", hex: "#C21460", type: "Tertiaire", rgb: [194, 20, 96] }
+        ];
+
+        let currentRotation = 0;
+        let selectedIndex = 0;
+        let activeHarmony = 'comp';
+
+        function initWheel() {
+            const baseG = document.getElementById('base-wheel');
+            const total = 12;
+            const arcAngle = 360 / total;
+            const rInner = 140;
+            const rOuter = 200;
+
+            for (let i = 0; i < total; i++) {
+                const startAngle = (i * arcAngle - 90 - arcAngle/2) * Math.PI / 180;
+                const endAngle = (i * arcAngle - 90 + arcAngle/2) * Math.PI / 180;
+
+                const x1 = rOuter * Math.cos(startAngle);
+                const y1 = rOuter * Math.sin(startAngle);
+                const x2 = rOuter * Math.cos(endAngle);
+                const y2 = rOuter * Math.sin(endAngle);
+                const x3 = rInner * Math.cos(endAngle);
+                const y3 = rInner * Math.sin(endAngle);
+                const x4 = rInner * Math.cos(startAngle);
+                const y4 = rInner * Math.sin(startAngle);
+
+                const d = `M ${x1} ${y1} A ${rOuter} ${rOuter} 0 0 1 ${x2} ${y2} L ${x3} ${y3} A ${rInner} ${rInner} 0 0 0 ${x4} ${y4} Z`;
+
+                const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                path.setAttribute("d", d);
+                path.setAttribute("fill", RYB_COLORS[i].hex);
+                path.setAttribute("stroke", "#1a1c23");
+                path.setAttribute("stroke-width", "2");
+                baseG.appendChild(path);
+
+                const midAngle = (i * arcAngle - 90) * Math.PI / 180;
+                const tx = (rOuter - 18) * Math.cos(midAngle);
+                const ty = (rOuter - 18) * Math.sin(midAngle);
+                const dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                dot.setAttribute("cx", tx);
+                dot.setAttribute("cy", ty);
+                dot.setAttribute("r", RYB_COLORS[i].type === 'Primaire' ? 4 : (RYB_COLORS[i].type === 'Secondaire' ? 3 : 1.5));
+                dot.setAttribute("fill", "#ffffff");
+                dot.setAttribute("opacity", "0.8");
+                baseG.appendChild(dot);
+            }
+
+            drawDiscMarkings();
+            updateAll();
+        }
+
+        function drawDiscMarkings() {
+            const discG = document.getElementById('disc-markings');
+            discG.innerHTML = '';
+
+            const harmonies = [
+                { angle: 180, color: '#38bdf8', r: 5 },
+                { angle: 120, color: '#a855f7', r: 4 },
+                { angle: 240, color: '#a855f7', r: 4 },
+                { angle: 90, color: '#ec4899', r: 3.5 },
+                { angle: 270, color: '#ec4899', r: 3.5 },
+                { angle: 30, color: '#10b981', r: 3 },
+                { angle: 330, color: '#10b981', r: 3 }
+            ];
+
+            harmonies.forEach(h => {
+                const rad = (h.angle - 90) * Math.PI / 180;
+                const x = 125 * Math.cos(rad);
+                const y = 125 * Math.sin(rad);
+
+                const c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                c.setAttribute("cx", x);
+                c.setAttribute("cy", y);
+                c.setAttribute("r", h.r);
+                c.setAttribute("fill", h.color);
+                discG.appendChild(c);
+
+                const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                line.setAttribute("x1", 35 * Math.cos(rad));
+                line.setAttribute("y1", 35 * Math.sin(rad));
+                line.setAttribute("x2", 115 * Math.cos(rad));
+                line.setAttribute("y2", 115 * Math.sin(rad));
+                line.setAttribute("stroke", h.color);
+                line.setAttribute("stroke-width", "1");
+                line.setAttribute("stroke-dasharray", "3 3");
+                line.setAttribute("opacity", "0.4");
+                discG.appendChild(line);
+            });
+        }
+
+        let isDragging = false;
+        let startAngle = 0;
+        let currentAngleOffset = 0;
+        const wrapper = document.getElementById('wheel-wrapper');
+
+        function getAngle(e) {
+            const rect = wrapper.getBoundingClientRect();
+            const cx = rect.left + rect.width / 2;
+            const cy = rect.top + rect.height / 2;
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            const dx = clientX - cx;
+            const dy = clientY - cy;
+            let deg = Math.atan2(dy, dx) * 180 / Math.PI + 90;
+            if (deg < 0) deg += 360;
+            return deg;
+        }
+
+        wrapper.addEventListener('pointerdown', (e) => {
+            isDragging = true;
+            startAngle = getAngle(e) - currentRotation;
+            wrapper.setPointerCapture(e.pointerId);
+        });
+
+        wrapper.addEventListener('pointermove', (e) => {
+            if (!isDragging) return;
+            const deg = getAngle(e);
+            currentRotation = (deg - startAngle) % 360;
+            if (currentRotation < 0) currentRotation += 360;
+            document.getElementById('rotatable-disc').setAttribute('transform', `rotate(${currentRotation})`);
+
+            const normalizedAngle = (360 - currentRotation + 15) % 360;
+            const newIndex = Math.floor(normalizedAngle / 30) % 12;
+
+            if (newIndex !== selectedIndex) {
+                selectedIndex = newIndex;
+                updateAll();
+            }
+        });
+
+        wrapper.addEventListener('pointerup', () => {
+            if (!isDragging) return;
+            isDragging = false;
+            const targetRotation = Math.round(currentRotation / 30) * 30;
+            currentRotation = targetRotation % 360;
+            document.getElementById('rotatable-disc').setAttribute('transform', `rotate(${currentRotation})`);
+            const normalizedAngle = (360 - currentRotation + 15) % 360;
+            selectedIndex = Math.floor(normalizedAngle / 30) % 12;
+            updateAll();
+        });
+
+        function setHarmony(type) {
+            activeHarmony = type;
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            updateHarmonies();
+        }
+
+        function updateAll() {
+            const current = RYB_COLORS[selectedIndex];
+            document.getElementById('current-angle').textContent = `${(selectedIndex * 30)}°`;
+            document.getElementById('main-swatch').style.backgroundColor = current.hex;
+            document.getElementById('color-name').textContent = current.name;
+            document.getElementById('color-cat').textContent = `Couleur ${current.type}`;
+            document.getElementById('color-hex-main').textContent = current.hex;
+
+            updateShades(current);
+            updateHarmonies();
+            updateMixUI();
+        }
+
+        function updateShades(color) {
+            const container = document.getElementById('shades-container');
+            container.innerHTML = '';
+            const variations = [
+                { name: "Pur", color: color.rgb },
+                { name: "+ Blanc", color: blendRGB(color.rgb, [255, 255, 255], 0.4) },
+                { name: "+ Gris", color: blendRGB(color.rgb, [128, 128, 128], 0.35) },
+                { name: "+ Noir", color: blendRGB(color.rgb, [20, 20, 20], 0.45) }
+            ];
+
+            variations.forEach(v => {
+                const hex = rgbToHex(v.color[0], v.color[1], v.color[2]);
+                const box = document.createElement('div');
+                box.className = 'color-box';
+                box.innerHTML = `
+                    <div class="swatch" style="background-color: ${hex}" title="Copier ${hex}" onclick="navigator.clipboard.writeText('${hex}')"></div>
+                    <span class="color-label">${v.name}</span>
+                    <span class="color-hex">${hex}</span>
+                `;
+                container.appendChild(box);
+            });
+        }
+
+        function updateHarmonies() {
+            const container = document.getElementById('harmony-container');
+            container.innerHTML = '';
+            let indices = [];
+
+            switch(activeHarmony) {
+                case 'comp':
+                    indices = [selectedIndex, (selectedIndex + 6) % 12];
+                    break;
+                case 'split':
+                    indices = [selectedIndex, (selectedIndex + 5) % 12, (selectedIndex + 7) % 12];
+                    break;
+                case 'triad':
+                    indices = [selectedIndex, (selectedIndex + 4) % 12, (selectedIndex + 8) % 12];
+                    break;
+                case 'tetrad':
+                    indices = [selectedIndex, (selectedIndex + 3) % 12, (selectedIndex + 6) % 12, (selectedIndex + 9) % 12];
+                    break;
+                case 'analog':
+                    indices = [(selectedIndex + 11) % 12, selectedIndex, (selectedIndex + 1) % 12];
+                    break;
+            }
+
+            indices.forEach(idx => {
+                const c = RYB_COLORS[idx];
+                const box = document.createElement('div');
+                box.className = 'color-box';
+                box.innerHTML = `
+                    <div class="swatch" style="background-color: ${c.hex}" title="Copier ${c.hex}" onclick="navigator.clipboard.writeText('${c.hex}')"></div>
+                    <span class="color-label">${c.name}</span>
+                    <span class="color-hex">${c.hex}</span>
+                `;
+                container.appendChild(box);
+            });
+        }
+
+        function updateMixUI() {
+            const c1 = RYB_COLORS[selectedIndex];
+            const c2 = RYB_COLORS[(selectedIndex + 6) % 12];
+            document.getElementById('mix-c1').style.backgroundColor = c1.hex;
+            document.getElementById('mix-label1').textContent = c1.name;
+            document.getElementById('mix-c2').style.backgroundColor = c2.hex;
+            document.getElementById('mix-label2').textContent = c2.name;
+            updateMix();
+        }
+
+        function updateMix() {
+            const ratio = document.getElementById('mix-ratio').value / 100;
+            document.getElementById('ratio-label-1').textContent = `${Math.round((1 - ratio) * 100)}% C1`;
+            document.getElementById('ratio-label-2').textContent = `${Math.round(ratio * 100)}% C2`;
+
+            const c1 = RYB_COLORS[selectedIndex].rgb;
+            const c2 = RYB_COLORS[(selectedIndex + 6) % 12].rgb;
+
+            const mixed = subtractiveMix(c1, c2, ratio);
+            const hex = rgbToHex(mixed[0], mixed[1], mixed[2]);
+
+            document.getElementById('mix-result').style.backgroundColor = hex;
+            document.getElementById('mix-hex').textContent = hex;
+
+            if (Math.abs(ratio - 0.5) < 0.15) {
+                document.getElementById('mix-desc').textContent = "Gris chromatique neutre (neutralisation mutuelle)";
+            } else if (ratio < 0.5) {
+                document.getElementById('mix-desc').textContent = `Nuance rompue à dominante ${RYB_COLORS[selectedIndex].name}`;
+            } else {
+                document.getElementById('mix-desc').textContent = `Nuance rompue à dominante ${RYB_COLORS[(selectedIndex + 6) % 12].name}`;
+            }
+        }
+
+        function blendRGB(c1, c2, factor) {
+            return [
+                Math.round(c1[0] * (1 - factor) + c2[0] * factor),
+                Math.round(c1[1] * (1 - factor) + c2[1] * factor),
+                Math.round(c1[2] * (1 - factor) + c2[2] * factor)
+            ];
+        }
+
+        function subtractiveMix(rgb1, rgb2, t) {
+            const c1 = [255 - rgb1[0], 255 - rgb1[1], 255 - rgb1[2]];
+            const c2 = [255 - rgb2[0], 255 - rgb2[1], 255 - rgb2[2]];
+            const cMix = [
+                c1[0] * (1 - t) + c2[0] * t,
+                c1[1] * (1 - t) + c2[1] * t,
+                c1[2] * (1 - t) + c2[2] * t
+            ];
+            const darkFactor = 0.85;
+            return [
+                Math.max(0, Math.min(255, Math.round((255 - cMix[0]) * darkFactor))),
+                Math.max(0, Math.min(255, Math.round((255 - cMix[1]) * darkFactor))),
+                Math.max(0, Math.min(255, Math.round((255 - cMix[2]) * darkFactor)))
+            ];
+        }
+
+        function rgbToHex(r, g, b) {
+            return "#" + [r, g, b].map(x => x.toString(16).padStart(2, '0')).join('').toUpperCase();
+        }
+
+        window.onload = initWheel;
+    </script>
+</body>
+</html>
