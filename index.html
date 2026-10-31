@@ -1,637 +1,794 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roue Chromatique d'Atelier (RYB)</title>
-    <style>
-        :root {
-            --bg-color: #1a1c23;
-            --panel-bg: #242832;
-            --text-color: #e2e8f0;
-            --accent-color: #3b82f6;
-            --border-color: #374151;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roue Chromatique d'Atelier (RYB)</title>
+  <style>
+    :root {
+      --bg-color: #1a1c23;
+      --panel-bg: #242832;
+      --text-color: #e2e8f0;
+      --text-muted: #94a3b8;
+      --accent-color: #3b82f6;
+      --border-color: #374151;
+    }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            user-select: none;
-        }
+    * {
+      box-sizing: border-box;
+      user-select: none;
+      margin: 0;
+      padding: 0;
+    }
 
-        h1 {
-            margin: 0 0 10px 0;
-            font-size: 1.6rem;
-            text-align: center;
-        }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      padding: 24px 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
 
-        p.subtitle {
-            margin: 0 0 20px 0;
-            color: #94a3b8;
-            font-size: 0.95rem;
-            text-align: center;
-        }
+    /* Conteneur principal 2 colonnes */
+    .app-layout {
+      width: 100%;
+      max-width: 1180px;
+      display: grid;
+      grid-template-columns: 460px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
 
-        .main-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 24px;
-            justify-content: center;
-            align-items: flex-start;
-            max-width: 1050px;
-            width: 100%;
-        }
+    /* Colonne gauche et droite */
+    .col-left, .col-right {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
 
-        .wheel-card {
-            background-color: var(--panel-bg);
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+    header {
+      text-align: center;
+      margin-bottom: 2px;
+    }
 
-        .wheel-wrapper {
-            position: relative;
-            width: 420px;
-            height: 420px;
-            touch-action: none;
-            cursor: grab;
-        }
+    h1 {
+      font-size: 1.45rem;
+      margin-bottom: 4px;
+      color: #fff;
+    }
 
-        .wheel-wrapper:active {
-            cursor: grabbing;
-        }
+    p.subtitle {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
 
-        svg {
-            width: 100%;
-            height: 100%;
-        }
+    .card {
+      background-color: var(--panel-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    }
 
-        .info-panel {
-            flex: 1;
-            min-width: 320px;
-            max-width: 500px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
+    /* Section Roue rotative */
+    .wheel-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
 
-        .card {
-            background-color: var(--panel-bg);
-            border-radius: 12px;
-            padding: 16px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-        }
+    .wheel-viewport {
+      position: relative;
+      width: 350px;
+      height: 350px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: grab;
+    }
 
-        .card h2 {
-            font-size: 1.1rem;
-            margin-top: 0;
-            margin-bottom: 12px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    .wheel-viewport:active {
+      cursor: grabbing;
+    }
 
-        .tabs {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
+    canvas#wheelCanvas {
+      width: 350px;
+      height: 350px;
+      border-radius: 50%;
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.6);
+    }
 
-        .tab-btn {
-            background-color: #1e293b;
-            color: #94a3b8;
-            border: 1px solid var(--border-color);
-            padding: 6px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            transition: all 0.2s;
-        }
+    .instructions {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-align: center;
+    }
 
-        .tab-btn.active {
-            background-color: var(--accent-color);
-            color: white;
-            border-color: var(--accent-color);
-        }
+    /* Curseurs d'ambiance */
+    .sliders-panel {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 12px 14px;
+    }
 
-        .harmony-results {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-            gap: 10px;
-        }
+    .slider-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-        .color-box {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-        }
+    .slider-row label {
+      font-size: 0.8rem;
+      min-width: 80px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
 
-        .swatch {
-            width: 100%;
-            height: 44px;
-            border-radius: 6px;
-            border: 2px solid rgba(255,255,255,0.1);
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
-            cursor: pointer;
-            transition: transform 0.1s;
-        }
+    .slider-row input[type="range"] {
+      flex: 1;
+      accent-color: var(--accent-color);
+      cursor: pointer;
+    }
 
-        .swatch:hover {
-            transform: scale(1.05);
-        }
+    .slider-value {
+      font-size: 0.8rem;
+      font-family: monospace;
+      min-width: 42px;
+      text-align: right;
+    }
 
-        .color-label {
-            font-size: 0.75rem;
-            font-weight: 500;
-            text-align: center;
-        }
+    .reset-btn {
+      align-self: flex-end;
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 4px 10px;
+      font-size: 0.75rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
 
-        .color-hex {
-            font-size: 0.7rem;
-            color: #94a3b8;
-            font-family: monospace;
-        }
+    .reset-btn:hover {
+      background: var(--border-color);
+      color: #fff;
+    }
 
-        .shades-row {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
-            margin-top: 10px;
-        }
+    /* Harmonies */
+    .section-title {
+      font-size: 0.95rem;
+      font-weight: bold;
+      margin-bottom: 12px;
+      color: #fff;
+    }
 
-        .mix-container {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
+    .harmonies-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
 
-        .mix-preview {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: #1a1c23;
-            padding: 12px;
-            border-radius: 8px;
-        }
+    .harmony-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
 
-        .mix-swatch {
-            width: 50px;
-            height: 50px;
-            border-radius: 8px;
-            border: 1px solid rgba(255,255,255,0.2);
-        }
+    .harmony-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
 
-        .slider-container {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
+    .color-row {
+      display: flex;
+      gap: 8px;
+    }
 
-        .slider-container input[type=range] {
-            width: 100%;
-        }
+    .color-block {
+      flex: 1;
+      height: 44px;
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 4px 8px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      cursor: pointer;
+      transition: transform 0.1s;
+    }
 
-        .slider-labels {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.75rem;
-            color: #94a3b8;
-        }
+    .color-block:hover {
+      transform: translateY(-2px);
+    }
 
-        .mix-result-box {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: #111827;
-            padding: 10px;
-            border-radius: 8px;
-        }
+    .color-block span.title {
+      font-size: 0.7rem;
+      font-weight: bold;
+      color: #fff;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
-        .mix-result-swatch {
-            width: 60px;
-            height: 60px;
-            border-radius: 8px;
-            border: 2px solid #fff;
-        }
+    .color-block span.hex {
+      font-family: monospace;
+      font-size: 0.65rem;
+      color: #fff;
+      opacity: 0.9;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+    }
 
-        .badge {
-            font-size: 0.7rem;
-            padding: 2px 6px;
-            border-radius: 4px;
-            background: #374151;
-            color: #cbd5e1;
-        }
+    /* Déclinaisons */
+    .variations-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
 
-        .instructions {
-            font-size: 0.8rem;
-            color: #94a3b8;
-            line-height: 1.4;
-            margin-top: 8px;
-        }
-    </style>
+    .var-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .var-box {
+      width: 100%;
+      height: 44px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 4px;
+      cursor: pointer;
+    }
+
+    .var-box span {
+      font-family: monospace;
+      font-size: 0.65rem;
+      color: #fff;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+    }
+
+    .var-title {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    /* Simulateur de mélange */
+    .mixer-box {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .mix-preview {
+      height: 48px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: monospace;
+      font-size: 0.8rem;
+      font-weight: bold;
+      color: #fff;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+      cursor: pointer;
+    }
+
+    .mix-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .mix-controls span {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      min-width: 65px;
+    }
+
+    .mix-controls input[type="range"] {
+      flex: 1;
+      accent-color: var(--accent-color);
+      cursor: pointer;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      background: #10b981;
+      color: #fff;
+      padding: 7px 16px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      display: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      z-index: 100;
+    }
+
+    /* Passage en 1 colonne sur petit écran (mobile/tablette étroite) */
+    @media (max-width: 900px) {
+      .app-layout {
+        grid-template-columns: 1fr;
+      }
+      .wheel-card {
+        max-width: 460px;
+        margin: 0 auto;
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 <body>
 
-    <h1>Roue Chromatique d'Atelier</h1>
-    <p class="subtitle">Disque physique rotatif traditionnel (système RYB) & simulateur de mélange pigmentaire</p>
+  <div class="app-layout">
+    <!-- COLONNE GAUCHE : Titre, Roue d'atelier et Curseurs -->
+    <div class="col-left">
+      <header>
+        <h1>Roue Chromatique d'Atelier (RYB)</h1>
+        <p class="subtitle">Outil de synthèse soustractive et d'harmonie pour figurines</p>
+      </header>
 
-    <div class="main-container">
-        <div class="wheel-card">
-            <div class="wheel-wrapper" id="wheel-wrapper">
-                <svg id="wheel-svg" viewBox="-210 -210 420 420">
-                    <g id="base-wheel"></g>
-                    <g id="rotatable-disc">
-                        <circle cx="0" cy="0" r="140" fill="#242832" stroke="#475569" stroke-width="3" filter="drop-shadow(0 4px 8px rgba(0,0,0,0.5))"/>
-                        <circle cx="0" cy="0" r="135" fill="none" stroke="#334155" stroke-width="1" stroke-dasharray="4 4"/>
-                        <g id="disc-markings"></g>
-                        <circle cx="0" cy="0" r="28" fill="#1e293b" stroke="#cbd5e1" stroke-width="2"/>
-                        <circle cx="0" cy="0" r="10" fill="#cbd5e1"/>
-                        <path d="M 0 -135 L -8 -115 L 8 -115 Z" fill="#ef4444" stroke="#fff" stroke-width="1.5" />
-                        <text x="0" y="-95" text-anchor="middle" fill="#f8fafc" font-size="11" font-weight="bold">TEINTE CLÉ</text>
-                        <text x="0" y="98" text-anchor="middle" fill="#38bdf8" font-size="10" font-weight="bold">COMPLÉMENTAIRE</text>
-                        <path d="M 0 135 L -6 120 L 6 120 Z" fill="#38bdf8" />
-                    </g>
-                </svg>
-            </div>
-            <p class="instructions">🖱️ Cliquez et glissez sur le disque central pour faire pivoter la roue.</p>
+      <div class="card wheel-card">
+        <div class="wheel-viewport" id="viewport">
+          <canvas id="wheelCanvas" width="700" height="700"></canvas>
+        </div>
+        <div class="instructions">
+          <span>🖱 Cliquez et glissez sur le disque central pour faire pivoter la roue.</span>
         </div>
 
-        <div class="info-panel">
-            <div class="card">
-                <h2>Teinte sélectionnée <span id="current-angle" class="badge">0°</span></h2>
-                <div style="display:flex; align-items:center; gap:16px;">
-                    <div id="main-swatch" style="width:54px; height:54px; border-radius:8px; border:2px solid #fff;"></div>
-                    <div>
-                        <div id="color-name" style="font-size:1.1rem; font-weight:bold;">Rouge</div>
-                        <div id="color-cat" class="badge" style="margin-top:4px; display:inline-block;">Couleur Primaire</div>
-                        <div id="color-hex-main" style="font-family:monospace; color:#94a3b8; font-size:0.85rem; margin-top:4px;">#FE2712</div>
-                    </div>
-                </div>
-
-                <div style="margin-top:14px;">
-                    <span style="font-size:0.85rem; font-weight:600;">Déclinaisons d'Atelier (Pure / Éclaircie / Rompue / Assombrie) :</span>
-                    <div class="shades-row" id="shades-container"></div>
-                </div>
-            </div>
-
-            <div class="card">
-                <h2>Harmonies Géométriques</h2>
-                <div class="tabs">
-                    <button class="tab-btn active" onclick="setHarmony('comp')">Complémentaire</button>
-                    <button class="tab-btn" onclick="setHarmony('split')">Split-Compl.</button>
-                    <button class="tab-btn" onclick="setHarmony('triad')">Triade</button>
-                    <button class="tab-btn" onclick="setHarmony('tetrad')">Tétrade</button>
-                    <button class="tab-btn" onclick="setHarmony('analog')">Analogue</button>
-                </div>
-                <div class="harmony-results" id="harmony-container"></div>
-            </div>
-
-            <div class="card">
-                <h2>Mélange Pigmentaire (Soustractif)</h2>
-                <div class="mix-container">
-                    <div class="mix-preview">
-                        <div class="color-box">
-                            <div class="mix-swatch" id="mix-c1"></div>
-                            <span class="color-label" id="mix-label1">Couleur 1</span>
-                        </div>
-                        <div style="font-weight:bold; font-size:1.2rem;">+</div>
-                        <div class="color-box">
-                            <div class="mix-swatch" id="mix-c2"></div>
-                            <span class="color-label" id="mix-label2">Complémentaire</span>
-                        </div>
-                    </div>
-
-                    <div class="slider-container">
-                        <div class="slider-labels">
-                            <span id="ratio-label-1">50% C1</span>
-                            <span>Ratio de mélange</span>
-                            <span id="ratio-label-2">50% C2</span>
-                        </div>
-                        <input type="range" id="mix-ratio" min="0" max="100" value="50" oninput="updateMix()">
-                    </div>
-
-                    <div class="mix-result-box">
-                        <div class="mix-result-swatch" id="mix-result"></div>
-                        <div>
-                            <div style="font-size:0.85rem; font-weight:bold;">Résultat obtenu au mélange :</div>
-                            <div id="mix-desc" style="font-size:0.8rem; color:#cbd5e1; margin-top:2px;">Gris neutre chromatique / Ton rompu</div>
-                            <div id="mix-hex" style="font-family:monospace; color:#94a3b8; font-size:0.75rem;">#...</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="sliders-panel">
+          <div class="slider-row">
+            <label for="saturationSlider">Saturation</label>
+            <input type="range" id="saturationSlider" min="0" max="100" value="100">
+            <span class="slider-value" id="saturationValue">100%</span>
+          </div>
+          <div class="slider-row">
+            <label for="lightnessSlider">Luminosité</label>
+            <input type="range" id="lightnessSlider" min="15" max="85" value="50">
+            <span class="slider-value" id="lightnessValue">50%</span>
+          </div>
+          <button class="reset-btn" id="resetControls">Réinitialiser teintes pures</button>
         </div>
+      </div>
     </div>
 
-    <script>
-        const RYB_COLORS = [
-            { name: "Rouge", hex: "#FE2712", type: "Primaire", rgb: [254, 39, 18] },
-            { name: "Rouge-Orangé", hex: "#FC600A", type: "Tertiaire", rgb: [252, 96, 10] },
-            { name: "Orange", hex: "#FB9902", type: "Secondaire", rgb: [251, 153, 2] },
-            { name: "Jaune-Orangé", hex: "#FCCC1A", type: "Tertiaire", rgb: [252, 204, 26] },
-            { name: "Jaune", hex: "#FEFE33", type: "Primaire", rgb: [254, 254, 51] },
-            { name: "Jaune-Vert", hex: "#B2D732", type: "Tertiaire", rgb: [178, 215, 50] },
-            { name: "Vert", hex: "#66B032", type: "Secondaire", rgb: [102, 176, 50] },
-            { name: "Bleu-Vert", hex: "#347C98", type: "Tertiaire", rgb: [52, 124, 152] },
-            { name: "Bleu", hex: "#0247FE", type: "Primaire", rgb: [2, 71, 254] },
-            { name: "Bleu-Violet", hex: "#4424D6", type: "Tertiaire", rgb: [68, 36, 214] },
-            { name: "Violet", hex: "#8601AF", type: "Secondaire", rgb: [134, 1, 175] },
-            { name: "Rouge-Violet", hex: "#C21460", type: "Tertiaire", rgb: [194, 20, 96] }
-        ];
+    <!-- COLONNE DROITE : Harmonies, Déclinaisons et Simulateur -->
+    <div class="col-right">
+      <!-- Harmonies Visuelles -->
+      <div class="card">
+        <div class="section-title">Harmonies Visuelles</div>
+        <div class="harmonies-list">
+          <div class="harmony-group">
+            <div class="harmony-label">Complémentaire Directe (Contraste maximal)</div>
+            <div class="color-row" id="compRow"></div>
+          </div>
+          <div class="harmony-group">
+            <div class="harmony-label">Complémentaires Divisées (Split)</div>
+            <div class="color-row" id="splitRow"></div>
+          </div>
+          <div class="harmony-group">
+            <div class="harmony-label">Triade Équilibrée</div>
+            <div class="color-row" id="triadRow"></div>
+          </div>
+          <div class="harmony-group">
+            <div class="harmony-label">Analogues (Ambiance et transition)</div>
+            <div class="color-row" id="analogRow"></div>
+          </div>
+        </div>
+      </div>
 
-        let currentRotation = 0;
-        let selectedIndex = 0;
-        let activeHarmony = 'comp';
+      <!-- 4 Déclinaisons d'Atelier -->
+      <div class="card">
+        <div class="section-title">Déclinaisons d'Atelier de la Teinte</div>
+        <div class="variations-grid">
+          <div class="var-item">
+            <div class="var-box" id="pureBox"><span id="pureHex"></span></div>
+            <div class="var-title">Teinte Clé</div>
+          </div>
+          <div class="var-item">
+            <div class="var-box" id="tintBox"><span id="tintHex"></span></div>
+            <div class="var-title">Éclaircie (+ Blanc)</div>
+          </div>
+          <div class="var-item">
+            <div class="var-box" id="toneBox"><span id="toneHex"></span></div>
+            <div class="var-title">Rompue (+ Gris)</div>
+          </div>
+          <div class="var-item">
+            <div class="var-box" id="shadeBox"><span id="shadeHex"></span></div>
+            <div class="var-title">Assombrie (+ Noir)</div>
+          </div>
+        </div>
+      </div>
 
-        function initWheel() {
-            const baseG = document.getElementById('base-wheel');
-            const total = 12;
-            const arcAngle = 360 / total;
-            const rInner = 140;
-            const rOuter = 200;
+      <!-- Simulateur de mélange physique -->
+      <div class="card">
+        <div class="section-title">Simulateur de Neutralisation (Mélange RYB)</div>
+        <div class="mixer-box">
+          <div class="mix-preview" id="mixPreview">Aperçu du mélange</div>
+          <div class="mix-controls">
+            <span id="labelA">Base</span>
+            <input type="range" id="mixSlider" min="0" max="100" value="50">
+            <span id="labelB">Complément</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-            for (let i = 0; i < total; i++) {
-                const startAngle = (i * arcAngle - 90 - arcAngle/2) * Math.PI / 180;
-                const endAngle = (i * arcAngle - 90 + arcAngle/2) * Math.PI / 180;
+  <div class="toast" id="toast">Code HEX copié !</div>
 
-                const x1 = rOuter * Math.cos(startAngle);
-                const y1 = rOuter * Math.sin(startAngle);
-                const x2 = rOuter * Math.cos(endAngle);
-                const y2 = rOuter * Math.sin(endAngle);
-                const x3 = rInner * Math.cos(endAngle);
-                const y3 = rInner * Math.sin(endAngle);
-                const x4 = rInner * Math.cos(startAngle);
-                const y4 = rInner * Math.sin(startAngle);
+  <script>
+    const BASE_HUES = [
+      { name: "Rouge", h: 0 },
+      { name: "Rouge-Orange", h: 18 },
+      { name: "Orange", h: 36 },
+      { name: "Jaune-Orange", h: 48 },
+      { name: "Jaune", h: 60 },
+      { name: "Jaune-Vert", h: 85 },
+      { name: "Vert", h: 130 },
+      { name: "Bleu-Vert", h: 170 },
+      { name: "Bleu", h: 220 },
+      { name: "Bleu-Violet", h: 260 },
+      { name: "Violet", h: 285 },
+      { name: "Rouge-Violet", h: 320 }
+    ];
 
-                const d = `M ${x1} ${y1} A ${rOuter} ${rOuter} 0 0 1 ${x2} ${y2} L ${x3} ${y3} A ${rInner} ${rInner} 0 0 0 ${x4} ${y4} Z`;
+    let currentRotation = 0;
+    let activeIndex = 0;
+    let currentSat = 100;
+    let currentLight = 50;
 
-                const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-                path.setAttribute("d", d);
-                path.setAttribute("fill", RYB_COLORS[i].hex);
-                path.setAttribute("stroke", "#1a1c23");
-                path.setAttribute("stroke-width", "2");
-                baseG.appendChild(path);
+    function hslToHex(h, s, l) {
+      l /= 100;
+      const a = (s * Math.min(l, 1 - l)) / 100;
+      const f = n => {
+        const k = (n + h / 30) % 12;
+        const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+        return Math.round(255 * color).toString(16).padStart(2, '0');
+      };
+      return `#${f(0)}${f(8)}${f(4)}`.toUpperCase();
+    }
 
-                const midAngle = (i * arcAngle - 90) * Math.PI / 180;
-                const tx = (rOuter - 18) * Math.cos(midAngle);
-                const ty = (rOuter - 18) * Math.sin(midAngle);
-                const dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-                dot.setAttribute("cx", tx);
-                dot.setAttribute("cy", ty);
-                dot.setAttribute("r", RYB_COLORS[i].type === 'Primaire' ? 4 : (RYB_COLORS[i].type === 'Secondaire' ? 3 : 1.5));
-                dot.setAttribute("fill", "#ffffff");
-                dot.setAttribute("opacity", "0.8");
-                baseG.appendChild(dot);
-            }
+    function hexToRgb(hex) {
+      const bigint = parseInt(hex.slice(1), 16);
+      return { r: (bigint >> 16) & 255, g: (bigint >> 8) & 255, b: bigint & 255 };
+    }
 
-            drawDiscMarkings();
-            updateAll();
-        }
+    function rgbToHex(r, g, b) {
+      return "#" + [r, g, b].map(x => Math.round(Math.max(0, Math.min(255, x))).toString(16).padStart(2, '0')).join('').toUpperCase();
+    }
 
-        function drawDiscMarkings() {
-            const discG = document.getElementById('disc-markings');
-            discG.innerHTML = '';
+    function getColor(index, satOffset = 0, lightOffset = 0) {
+      const idx = ((index % 12) + 12) % 12;
+      const item = BASE_HUES[idx];
+      const s = Math.max(0, Math.min(100, currentSat + satOffset));
+      const l = Math.max(0, Math.min(100, currentLight + lightOffset));
+      return {
+        name: item.name,
+        hex: hslToHex(item.h, s, l)
+      };
+    }
 
-            const harmonies = [
-                { angle: 180, color: '#38bdf8', r: 5 },
-                { angle: 120, color: '#a855f7', r: 4 },
-                { angle: 240, color: '#a855f7', r: 4 },
-                { angle: 90, color: '#ec4899', r: 3.5 },
-                { angle: 270, color: '#ec4899', r: 3.5 },
-                { angle: 30, color: '#10b981', r: 3 },
-                { angle: 330, color: '#10b981', r: 3 }
-            ];
+    function draw() {
+      const canvas = document.getElementById('wheelCanvas');
+      const ctx = canvas.getContext('2d');
+      const cx = canvas.width / 2;
+      const cy = canvas.height / 2;
+      const outerR = cx - 12;
+      const maskR = outerR * 0.72;
+      const step = (2 * Math.PI) / 12;
 
-            harmonies.forEach(h => {
-                const rad = (h.angle - 90) * Math.PI / 180;
-                const x = 125 * Math.cos(rad);
-                const y = 125 * Math.sin(rad);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-                const c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-                c.setAttribute("cx", x);
-                c.setAttribute("cy", y);
-                c.setAttribute("r", h.r);
-                c.setAttribute("fill", h.color);
-                discG.appendChild(c);
+      ctx.beginPath();
+      ctx.arc(cx, cy, outerR + 6, 0, 2 * Math.PI);
+      ctx.fillStyle = '#111419';
+      ctx.fill();
 
-                const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-                line.setAttribute("x1", 35 * Math.cos(rad));
-                line.setAttribute("y1", 35 * Math.sin(rad));
-                line.setAttribute("x2", 115 * Math.cos(rad));
-                line.setAttribute("y2", 115 * Math.sin(rad));
-                line.setAttribute("stroke", h.color);
-                line.setAttribute("stroke-width", "1");
-                line.setAttribute("stroke-dasharray", "3 3");
-                line.setAttribute("opacity", "0.4");
-                discG.appendChild(line);
-            });
-        }
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(currentRotation);
 
-        let isDragging = false;
-        let startAngle = 0;
-        let currentAngleOffset = 0;
-        const wrapper = document.getElementById('wheel-wrapper');
+      for (let i = 0; i < 12; i++) {
+        const start = i * step - Math.PI / 2 - step / 2;
+        const end = start + step;
 
-        function getAngle(e) {
-            const rect = wrapper.getBoundingClientRect();
-            const cx = rect.left + rect.width / 2;
-            const cy = rect.top + rect.height / 2;
-            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-            const dx = clientX - cx;
-            const dy = clientY - cy;
-            let deg = Math.atan2(dy, dx) * 180 / Math.PI + 90;
-            if (deg < 0) deg += 360;
-            return deg;
-        }
+        ctx.beginPath();
+        ctx.arc(0, 0, outerR, start, end);
+        ctx.arc(0, 0, maskR - 10, end, start, true);
+        ctx.closePath();
 
-        wrapper.addEventListener('pointerdown', (e) => {
-            isDragging = true;
-            startAngle = getAngle(e) - currentRotation;
-            wrapper.setPointerCapture(e.pointerId);
-        });
+        const color = getColor(i);
+        ctx.fillStyle = color.hex;
+        ctx.fill();
 
-        wrapper.addEventListener('pointermove', (e) => {
-            if (!isDragging) return;
-            const deg = getAngle(e);
-            currentRotation = (deg - startAngle) % 360;
-            if (currentRotation < 0) currentRotation += 360;
-            document.getElementById('rotatable-disc').setAttribute('transform', `rotate(${currentRotation})`);
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = '#1a1c23';
+        ctx.stroke();
 
-            const normalizedAngle = (360 - currentRotation + 15) % 360;
-            const newIndex = Math.floor(normalizedAngle / 30) % 12;
+        const midAngle = start + step / 2;
+        const dotR = (outerR + maskR) / 2;
+        ctx.beginPath();
+        ctx.arc(Math.cos(midAngle) * dotR, Math.sin(midAngle) * dotR, 4.5, 0, 2 * Math.PI);
+        ctx.fillStyle = '#ffffff';
+        ctx.fill();
+      }
+      ctx.restore();
 
-            if (newIndex !== selectedIndex) {
-                selectedIndex = newIndex;
-                updateAll();
-            }
-        });
+      ctx.beginPath();
+      ctx.arc(cx, cy, maskR, 0, 2 * Math.PI);
+      ctx.fillStyle = '#222731';
+      ctx.fill();
 
-        wrapper.addEventListener('pointerup', () => {
-            if (!isDragging) return;
-            isDragging = false;
-            const targetRotation = Math.round(currentRotation / 30) * 30;
-            currentRotation = targetRotation % 360;
-            document.getElementById('rotatable-disc').setAttribute('transform', `rotate(${currentRotation})`);
-            const normalizedAngle = (360 - currentRotation + 15) % 360;
-            selectedIndex = Math.floor(normalizedAngle / 30) % 12;
-            updateAll();
-        });
+      ctx.lineWidth = 4;
+      ctx.strokeStyle = '#343c4a';
+      ctx.stroke();
 
-        function setHarmony(type) {
-            activeHarmony = type;
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            updateHarmonies();
-        }
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = '#161920';
+      ctx.stroke();
 
-        function updateAll() {
-            const current = RYB_COLORS[selectedIndex];
-            document.getElementById('current-angle').textContent = `${(selectedIndex * 30)}°`;
-            document.getElementById('main-swatch').style.backgroundColor = current.hex;
-            document.getElementById('color-name').textContent = current.name;
-            document.getElementById('color-cat').textContent = `Couleur ${current.type}`;
-            document.getElementById('color-hex-main').textContent = current.hex;
+      const drawRay = (angle, color) => {
+        ctx.save();
+        ctx.beginPath();
+        ctx.setLineDash([4, 4]);
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(cx + Math.cos(angle) * (maskR - 18), cy + Math.sin(angle) * (maskR - 18));
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+        ctx.restore();
 
-            updateShades(current);
-            updateHarmonies();
-            updateMixUI();
-        }
+        ctx.beginPath();
+        ctx.arc(cx + Math.cos(angle) * (maskR - 22), cy + Math.sin(angle) * (maskR - 22), 4, 0, 2 * Math.PI);
+        ctx.fillStyle = color;
+        ctx.fill();
+      };
 
-        function updateShades(color) {
-            const container = document.getElementById('shades-container');
-            container.innerHTML = '';
-            const variations = [
-                { name: "Pur", color: color.rgb },
-                { name: "+ Blanc", color: blendRGB(color.rgb, [255, 255, 255], 0.4) },
-                { name: "+ Gris", color: blendRGB(color.rgb, [128, 128, 128], 0.35) },
-                { name: "+ Noir", color: blendRGB(color.rgb, [20, 20, 20], 0.45) }
-            ];
+      drawRay(-Math.PI / 2 - (2 * Math.PI / 12) * 1, '#10b981');
+      drawRay(-Math.PI / 2 + (2 * Math.PI / 12) * 1, '#10b981');
+      drawRay(-Math.PI / 2 - (2 * Math.PI / 12) * 3, '#f43f5e');
+      drawRay(-Math.PI / 2 + (2 * Math.PI / 12) * 3, '#f43f5e');
+      drawRay(-Math.PI / 2 - (2 * Math.PI / 12) * 4, '#a855f7');
+      drawRay(-Math.PI / 2 + (2 * Math.PI / 12) * 4, '#a855f7');
+      drawRay(Math.PI / 2, '#38bdf8');
 
-            variations.forEach(v => {
-                const hex = rgbToHex(v.color[0], v.color[1], v.color[2]);
-                const box = document.createElement('div');
-                box.className = 'color-box';
-                box.innerHTML = `
-                    <div class="swatch" style="background-color: ${hex}" title="Copier ${hex}" onclick="navigator.clipboard.writeText('${hex}')"></div>
-                    <span class="color-label">${v.name}</span>
-                    <span class="color-hex">${hex}</span>
-                `;
-                container.appendChild(box);
-            });
-        }
+      ctx.beginPath();
+      const topY = cy - maskR + 18;
+      ctx.moveTo(cx, topY);
+      ctx.lineTo(cx - 15, topY + 28);
+      ctx.lineTo(cx + 15, topY + 28);
+      ctx.closePath();
+      ctx.fillStyle = '#ef4444';
+      ctx.fill();
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = '#fff';
+      ctx.stroke();
 
-        function updateHarmonies() {
-            const container = document.getElementById('harmony-container');
-            container.innerHTML = '';
-            let indices = [];
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 19px -apple-system, BlinkMacSystemFont, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('TEINTE CLÉ', cx, topY + 54);
 
-            switch(activeHarmony) {
-                case 'comp':
-                    indices = [selectedIndex, (selectedIndex + 6) % 12];
-                    break;
-                case 'split':
-                    indices = [selectedIndex, (selectedIndex + 5) % 12, (selectedIndex + 7) % 12];
-                    break;
-                case 'triad':
-                    indices = [selectedIndex, (selectedIndex + 4) % 12, (selectedIndex + 8) % 12];
-                    break;
-                case 'tetrad':
-                    indices = [selectedIndex, (selectedIndex + 3) % 12, (selectedIndex + 6) % 12, (selectedIndex + 9) % 12];
-                    break;
-                case 'analog':
-                    indices = [(selectedIndex + 11) % 12, selectedIndex, (selectedIndex + 1) % 12];
-                    break;
-            }
+      const botY = cy + maskR - 18;
+      ctx.beginPath();
+      ctx.moveTo(cx, botY);
+      ctx.lineTo(cx - 13, botY - 24);
+      ctx.lineTo(cx + 13, botY - 24);
+      ctx.closePath();
+      ctx.fillStyle = '#0284c7';
+      ctx.fill();
+      ctx.lineWidth = 1.5;
+      ctx.strokeStyle = '#38bdf8';
+      ctx.stroke();
 
-            indices.forEach(idx => {
-                const c = RYB_COLORS[idx];
-                const box = document.createElement('div');
-                box.className = 'color-box';
-                box.innerHTML = `
-                    <div class="swatch" style="background-color: ${c.hex}" title="Copier ${c.hex}" onclick="navigator.clipboard.writeText('${c.hex}')"></div>
-                    <span class="color-label">${c.name}</span>
-                    <span class="color-hex">${c.hex}</span>
-                `;
-                container.appendChild(box);
-            });
-        }
+      ctx.fillStyle = '#38bdf8';
+      ctx.font = 'bold 17px -apple-system, BlinkMacSystemFont, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('COMPLÉMENTAIRE', cx, botY - 36);
 
-        function updateMixUI() {
-            const c1 = RYB_COLORS[selectedIndex];
-            const c2 = RYB_COLORS[(selectedIndex + 6) % 12];
-            document.getElementById('mix-c1').style.backgroundColor = c1.hex;
-            document.getElementById('mix-label1').textContent = c1.name;
-            document.getElementById('mix-c2').style.backgroundColor = c2.hex;
-            document.getElementById('mix-label2').textContent = c2.name;
-            updateMix();
-        }
+      ctx.beginPath();
+      ctx.arc(cx, cy, 44, 0, 2 * Math.PI);
+      ctx.fillStyle = '#2d3340';
+      ctx.fill();
+      ctx.lineWidth = 3;
+      ctx.strokeStyle = '#cbd5e1';
+      ctx.stroke();
 
-        function updateMix() {
-            const ratio = document.getElementById('mix-ratio').value / 100;
-            document.getElementById('ratio-label-1').textContent = `${Math.round((1 - ratio) * 100)}% C1`;
-            document.getElementById('ratio-label-2').textContent = `${Math.round(ratio * 100)}% C2`;
+      ctx.beginPath();
+      ctx.arc(cx, cy, 16, 0, 2 * Math.PI);
+      ctx.fillStyle = '#cbd5e1';
+      ctx.fill();
+    }
 
-            const c1 = RYB_COLORS[selectedIndex].rgb;
-            const c2 = RYB_COLORS[(selectedIndex + 6) % 12].rgb;
+    function copyHex(hex) {
+      navigator.clipboard.writeText(hex).then(() => {
+        const toast = document.getElementById('toast');
+        toast.textContent = `Code ${hex} copié !`;
+        toast.style.display = 'block';
+        setTimeout(() => { toast.style.display = 'none'; }, 2000);
+      });
+    }
 
-            const mixed = subtractiveMix(c1, c2, ratio);
-            const hex = rgbToHex(mixed[0], mixed[1], mixed[2]);
+    function createColorBlock(index) {
+      const col = getColor(index);
+      const div = document.createElement('div');
+      div.className = 'color-block';
+      div.style.backgroundColor = col.hex;
+      div.innerHTML = `<span class="title">${col.name}</span><span class="hex">${col.hex}</span>`;
+      div.onclick = () => copyHex(col.hex);
+      return div;
+    }
 
-            document.getElementById('mix-result').style.backgroundColor = hex;
-            document.getElementById('mix-hex').textContent = hex;
+    function updateDetails() {
+      const step = (2 * Math.PI) / 12;
+      let normalized = (-currentRotation) % (2 * Math.PI);
+      if (normalized < 0) normalized += 2 * Math.PI;
+      activeIndex = Math.round(normalized / step) % 12;
 
-            if (Math.abs(ratio - 0.5) < 0.15) {
-                document.getElementById('mix-desc').textContent = "Gris chromatique neutre (neutralisation mutuelle)";
-            } else if (ratio < 0.5) {
-                document.getElementById('mix-desc').textContent = `Nuance rompue à dominante ${RYB_COLORS[selectedIndex].name}`;
-            } else {
-                document.getElementById('mix-desc').textContent = `Nuance rompue à dominante ${RYB_COLORS[(selectedIndex + 6) % 12].name}`;
-            }
-        }
+      const compRow = document.getElementById('compRow');
+      compRow.innerHTML = '';
+      compRow.appendChild(createColorBlock(activeIndex));
+      compRow.appendChild(createColorBlock(activeIndex + 6));
 
-        function blendRGB(c1, c2, factor) {
-            return [
-                Math.round(c1[0] * (1 - factor) + c2[0] * factor),
-                Math.round(c1[1] * (1 - factor) + c2[1] * factor),
-                Math.round(c1[2] * (1 - factor) + c2[2] * factor)
-            ];
-        }
+      const splitRow = document.getElementById('splitRow');
+      splitRow.innerHTML = '';
+      splitRow.appendChild(createColorBlock(activeIndex));
+      splitRow.appendChild(createColorBlock(activeIndex + 5));
+      splitRow.appendChild(createColorBlock(activeIndex + 7));
 
-        function subtractiveMix(rgb1, rgb2, t) {
-            const c1 = [255 - rgb1[0], 255 - rgb1[1], 255 - rgb1[2]];
-            const c2 = [255 - rgb2[0], 255 - rgb2[1], 255 - rgb2[2]];
-            const cMix = [
-                c1[0] * (1 - t) + c2[0] * t,
-                c1[1] * (1 - t) + c2[1] * t,
-                c1[2] * (1 - t) + c2[2] * t
-            ];
-            const darkFactor = 0.85;
-            return [
-                Math.max(0, Math.min(255, Math.round((255 - cMix[0]) * darkFactor))),
-                Math.max(0, Math.min(255, Math.round((255 - cMix[1]) * darkFactor))),
-                Math.max(0, Math.min(255, Math.round((255 - cMix[2]) * darkFactor)))
-            ];
-        }
+      const triadRow = document.getElementById('triadRow');
+      triadRow.innerHTML = '';
+      triadRow.appendChild(createColorBlock(activeIndex));
+      triadRow.appendChild(createColorBlock(activeIndex + 4));
+      triadRow.appendChild(createColorBlock(activeIndex + 8));
 
-        function rgbToHex(r, g, b) {
-            return "#" + [r, g, b].map(x => x.toString(16).padStart(2, '0')).join('').toUpperCase();
-        }
+      const analogRow = document.getElementById('analogRow');
+      analogRow.innerHTML = '';
+      analogRow.appendChild(createColorBlock(activeIndex - 1));
+      analogRow.appendChild(createColorBlock(activeIndex));
+      analogRow.appendChild(createColorBlock(activeIndex + 1));
 
-        window.onload = initWheel;
-    </script>
+      const keyCol = getColor(activeIndex);
+      const pure = keyCol.hex;
+      const tint = getColor(activeIndex, 0, 20).hex;
+      const tone = getColor(activeIndex, -45, 0).hex;
+      const shade = getColor(activeIndex, 0, -20).hex;
+
+      const setVar = (boxId, hexId, hex) => {
+        const b = document.getElementById(boxId);
+        b.style.backgroundColor = hex;
+        document.getElementById(hexId).textContent = hex;
+        b.onclick = () => copyHex(hex);
+      };
+
+      setVar('pureBox', 'pureHex', pure);
+      setVar('tintBox', 'tintHex', tint);
+      setVar('toneBox', 'toneHex', tone);
+      setVar('shadeBox', 'shadeHex', shade);
+
+      updateMixer();
+    }
+
+    function updateMixer() {
+      const colA = getColor(activeIndex);
+      const colB = getColor(activeIndex + 6);
+      const ratio = document.getElementById('mixSlider').value / 100;
+
+      document.getElementById('labelA').textContent = colA.name;
+      document.getElementById('labelB').textContent = colB.name;
+
+      const rgbA = hexToRgb(colA.hex);
+      const rgbB = hexToRgb(colB.hex);
+
+      const mixR = rgbA.r * (1 - ratio) + rgbB.r * ratio;
+      const mixG = rgbA.g * (1 - ratio) + rgbB.g * ratio;
+      const mixB = rgbA.b * (1 - ratio) + rgbB.b * ratio;
+      const factor = 1 - Math.sin(ratio * Math.PI) * 0.18;
+
+      const mixedHex = rgbToHex(mixR * factor, mixG * factor, mixB * factor);
+
+      const preview = document.getElementById('mixPreview');
+      preview.style.backgroundColor = mixedHex;
+      preview.textContent = `${mixedHex} (Cliquer pour copier)`;
+      preview.onclick = () => copyHex(mixedHex);
+    }
+
+    const viewport = document.getElementById('viewport');
+    let isDragging = false;
+    let startAngle = 0;
+    let baseRotation = 0;
+
+    function getAngle(e) {
+      const rect = viewport.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      return Math.atan2(clientY - cy, clientX - cx);
+    }
+
+    function onPointerDown(e) {
+      isDragging = true;
+      startAngle = getAngle(e);
+      baseRotation = currentRotation;
+      e.preventDefault();
+    }
+
+    function onPointerMove(e) {
+      if (!isDragging) return;
+      const current = getAngle(e);
+      currentRotation = baseRotation + (current - startAngle);
+      draw();
+      updateDetails();
+    }
+
+    function onPointerUp() {
+      isDragging = false;
+    }
+
+    viewport.addEventListener('mousedown', onPointerDown);
+    window.addEventListener('mousemove', onPointerMove);
+    window.addEventListener('mouseup', onPointerUp);
+
+    viewport.addEventListener('touchstart', onPointerDown, { passive: false });
+    window.addEventListener('touchmove', onPointerMove, { passive: false });
+    window.addEventListener('touchend', onPointerUp);
+
+    const satSlider = document.getElementById('saturationSlider');
+    const lightSlider = document.getElementById('lightnessSlider');
+    const satVal = document.getElementById('saturationValue');
+    const lightVal = document.getElementById('lightnessValue');
+
+    satSlider.addEventListener('input', (e) => {
+      currentSat = parseInt(e.target.value, 10);
+      satVal.textContent = `${currentSat}%`;
+      draw();
+      updateDetails();
+    });
+
+    lightSlider.addEventListener('input', (e) => {
+      currentLight = parseInt(e.target.value, 10);
+      lightVal.textContent = `${currentLight}%`;
+      draw();
+      updateDetails();
+    });
+
+    document.getElementById('resetControls').addEventListener('click', () => {
+      currentSat = 100;
+      currentLight = 50;
+      satSlider.value = 100;
+      lightSlider.value = 50;
+      satVal.textContent = '100%';
+      lightVal.textContent = '50%';
+      draw();
+      updateDetails();
+    });
+
+    document.getElementById('mixSlider').addEventListener('input', updateMixer);
+
+    draw();
+    updateDetails();
+  </script>
 </body>
 </html>
