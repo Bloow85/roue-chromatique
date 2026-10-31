@@ -1,4 +1,5 @@
 # Roue Chromatique d'Atelier (RYB)
+[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-Soutenir-orange?style=for-the-badge&logo=buy-me-a-coffee&logoColor=white)](https://buymeacoffee.com/Bloow85)
 
 Outil interactif reproduisant la roue chromatique double-disque traditionnelle d'atelier, conçu pour les peintres, figurinistes et créateurs visuels.
 
