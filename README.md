@@ -1,48 +1,69 @@
-# Roue Chromatique d'Atelier (RYB)
+# Roue Chromatique d'Atelier (RYB) v3.4
+
 [![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-Soutenir-orange?style=for-the-badge&logo=buy-me-a-coffee&logoColor=white)](https://buymeacoffee.com/Bloow85)
+[![Statut](https://img.shields.io/badge/Version-3.4-blue.svg)](https://bloow85.github.io/roue-chromatique/)
 
-Outil interactif reproduisant la roue chromatique double-disque traditionnelle d'atelier, conçu pour les peintres, figurinistes et créateurs visuels.
+Outil interactif reproduisant la roue chromatique double-disque traditionnelle d'atelier, concu sur mesure pour les peintres de figurines, modelistes et createurs visuels.
 
-Contrairement aux écrans qui fonctionnent par addition de lumière (RVB), la peinture physique fonctionne par synthèse soustractive à partir du cercle traditionnel RYB (Red - Yellow - Blue / Rouge - Jaune - Bleu). Cet outil simule le comportement des pigments réels.
-
----
-
-## Guide Théorique pour Débutants
-
-### 1. La Hiérarchie des Couleurs
-- Couleurs primaires (Rouge, Jaune, Bleu) : Couleurs fondamentales pures. Elles ne peuvent être créées par aucun mélange.
-- Couleurs secondaires (Orange, Vert, Violet) : Obtenues en mélangeant deux primaires à parts égales.
-- Couleurs tertiaires (Rouge-Orangé, Jaune-Vert, etc.) : Obtenues en mélangeant une couleur primaire avec sa secondaire voisine.
+Contrairement aux ecrans qui fonctionnent par addition de lumiere (RVB), la peinture physique fonctionne par synthese soustractive a partir du cercle traditionnel RYB (Red - Yellow - Blue / Rouge - Jaune - Bleu). Cet outil simule le comportement optique des pigments reels directement dans votre navigateur.
 
 ---
 
-### 2. Les Règles d'Harmonies Visuelles
-L'outil calcule automatiquement les accords chromatiques les plus efficaces :
+## Fonctionnalites Principales (v3.4)
 
-- Complémentaire (180° sur la roue) : Deux couleurs diamétralement opposées (ex. Bleu et Orange, Rouge et Vert). C'est le contraste visuel maximal. Idéal pour faire ressortir un point focal ou une zone d'intérêt.
-- Complémentaire adjacente (Split-Complementary) : Une couleur de base combinée avec les deux teintes qui entourent sa complémentaire. Offre un fort contraste tout en étant plus subtil et moins agressif pour l'œil.
-- Triade (120°) : Trois couleurs équidistantes formant un triangle équilatéral (ex. Primaires : Rouge, Jaune, Bleu). Crée une composition vivante, lumineuse et naturellement équilibrée.
-- Tétrade (90°) : Deux paires de couleurs complémentaires formant un rectangle ou un carré. Idéal pour des scènes riches et variées, en veillant à toujours laisser dominer une seule couleur.
-- Analogue (30°) : Trois couleurs côte à côte sur le cercle. Crée une ambiance douce, harmonieuse et sans rupture brutale de ton.
+### 1. Disque Rotatif & Equivalences Pots de Peinture
+- Palette physique 12 secteurs : Navigation fluide avec disque rotatif interactif ou boutons pas-a-pas.
+- Correspondances directes pour figurinistes : Pour chaque teinte selectionnee, l'application donne immediatement les references exactes des pots equivalents du marche :
+  - Citadel (ex: Mephiston Red, Macragge Blue, Moot Green)
+  - Vallejo / Prince August (gammes Model Color et Game Color)
+  - The Army Painter (gamme Warpaints)
+
+### 2. Harmonies Visuelles & Neutralisation
+- Calcul automatique des accords : Complementaire (180 degres), Oppose divise (Split-Complementary), Triade (120 degres), Tetrade (90 degres) et Analogue (30 degres).
+- 4 Declinaisons d'Atelier : Teinte pure, eclaircie (+ blanc), rompue (+ gris) et assombrie (+ noir).
+- Simulateur de neutralisation : Dosage precis de melange soustractif pour creer des ombres naturelles et des gris chromatiques sans salir au noir pur.
+- Reglage d'ambiance d'atelier : Sliders de saturation et de luminosite pour adapter toute la roue aux ambiances sombres (Grimdark) ou pastel.
+
+### 3. Simulation Optique & OSL (Object Source Lighting)
+- Moteur optique physique : Simulation du comportement d'un faisceau lumineux colore frappant un pigment de base (absorption et reflexion).
+- Presets de lumieres d'ambiance : Soleil blanc, Flamme orange, Plasma vert, Cyan magique, Alarme rouge.
+- Rendu sur sphere 3D : Visualisation en direct du point focal, de la demi-teinte et du reflet speculaire avec conseils d'application (glacis, rehauts, ombres).
+
+### 4. Analyseur de Reference & Loupe Haute Precision
+- Import d'image de reference : Glissez-deposez n'importe quelle photo de figurine ou concept art.
+- Loupe dynamique au pixel : Zoom au survol avec reticule de visee pour isoler les details minuscules.
+- Zoom molette et mode N&B : Analyse instantanee des contrastes de valeurs sans distraction de couleur.
+- Pipette intelligente & calage : Analyse de la valeur lumineuse de la zone ciblee (ombre, demi-teinte, lumiere) avec proposition du pot de peinture le plus proche et bouton pour recaler immediatement la roue sur cette couleur.
 
 ---
 
-### 3. Les 4 Déclinaisons d'Atelier
-Pour chaque teinte sélectionnée, l'outil génère ses variations de travail :
-- Pure : Le pigment brut sorti du tube ou du flacon.
-- Éclaircie (Tint) : Teinte coupée avec du blanc pour éclaircir et créer des rehauts de lumière sans altérer la famille de teinte.
-- Rompue (Tone) : Teinte atténuée avec une pointe de gris pour désaturer la couleur et lui donner un aspect plus naturel et réaliste.
-- Assombrie (Shade) : Teinte assombrie pour poser les ombres profondes sans écraser le volume.
+## Guide Theorique pour Debutants
 
----
+### 1. La Hierarchie des Couleurs
+- Primaires (Rouge, Jaune, Bleu) : Couleurs fondamentales pures, impossibles a obtenir par melange.
+- Secondaires (Orange, Vert, Violet) : Obtenues en melangeant deux primaires a parts egales.
+- Tertiaires (Rouge-Orange, Jaune-Vert, etc.) : Melange d'une primaire avec sa secondaire voisine.
 
-### 4. Le Simulateur de Mélange Pigmentaire
-- Neutralisation : En peinture, mélanger deux couleurs complémentaires (ex. Jaune + Violet) ne produit pas de lumière blanche, mais neutralise la saturation pour créer des gris chromatiques et des bruns d'ombre.
-- Dosage : La tirette de ratio permet de visualiser l'effet d'une pointe de couleur opposée pour "casser" une teinte trop vive sans utiliser de noir pur (ce qui évite de rendre la peinture terne ou sale).
+### 2. Les Regles d'Harmonies
+- Complementaire (180 degres) : Contraste maximal. Ideal pour faire ressortir un point focal (yeux, gemmes, armes energetiques).
+- Complementaire adjacente : Contraste marque mais plus doux et nuance pour l'oeil.
+- Triade (120 degres) : Trois teintes equidistantes pour une composition riche et equilibree.
+- Tetrade (90 degres) : Deux paires complementaires, a manipuler en gardant une couleur tres dominante.
+- Analogue (30 degres) : Teintes voisines pour un degrade naturel et une ambiance feutree.
 
 ---
 
 ## Utilisation
-- Faites pivoter le disque central à la souris (ou au doigt sur écran tactile) pour aligner la flèche sur votre teinte de base.
-- Cliquez sur n'importe quelle nuance pour copier instantanément sa valeur hexadécimale.
-- Fonctionne directement dans tout navigateur web, sur PC, tablette ou smartphone, 100 % hors-ligne.
+- En ligne : Utilisez directement l'application hebergee sur GitHub Pages : https://bloow85.github.io/roue-chromatique/
+- Copie rapide : Cliquez sur n'importe quel echantillon de couleur pour copier son code hexadecimal dans le presse-papiers.
+- 100 % autonome : Fonctionne sur PC, tablette et smartphone, sans installation et sans connexion internet requise une fois la page chargee.
+
+---
+
+## Propriete Intellectuelle & Droits d'Auteur
+
+(c) 2026 Marc BRONKAERT (bloow85). Tous droits reserves.
+
+Cette application, son code source, son interface graphique et ses algorithmes sont la propriete exclusive de l'auteur.  
+- Usage autorise : Utilisation personnelle, pedagogique et d'atelier non-commerciale.  
+- Restrictions : Toute reproduction, modification non autorisee, redistribution ou exploitation commerciale sans accord ecrit prealable est formellement interdite.
