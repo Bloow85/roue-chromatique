@@ -1,794 +1,145 @@
+<!--
+================================================================================
+  PROJET    : Roue Chromatique d'Atelier RYB & Suite Figuriniste
+  VERSION   : 3.4 (Loupe Dynamique, Pots Équivalents & OSL)
+  AUTEUR    : Marc BRONKAERT (bloow85)
+  ANNÉE     : 2026 - Tous droits réservés / All Rights Reserved
+  CONDITIONS: Usage strictement personnel et d'atelier autorisé.
+              Toute reproduction, redistribution, modification non autorisée
+              ou exploitation commerciale sans accord écrit préalable de l'auteur
+              est formellement interdite.
+================================================================================
+-->
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Roue Chromatique d'Atelier (RYB)</title>
-  <style>
-    :root {
-      --bg-color: #1a1c23;
-      --panel-bg: #242832;
-      --text-color: #e2e8f0;
-      --text-muted: #94a3b8;
-      --accent-color: #3b82f6;
-      --border-color: #374151;
-    }
-
-    * {
-      box-sizing: border-box;
-      user-select: none;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      padding: 24px 16px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-    }
-
-    /* Conteneur principal 2 colonnes */
-    .app-layout {
-      width: 100%;
-      max-width: 1180px;
-      display: grid;
-      grid-template-columns: 460px 1fr;
-      gap: 20px;
-      align-items: start;
-    }
-
-    /* Colonne gauche et droite */
-    .col-left, .col-right {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    header {
-      text-align: center;
-      margin-bottom: 2px;
-    }
-
-    h1 {
-      font-size: 1.45rem;
-      margin-bottom: 4px;
-      color: #fff;
-    }
-
-    p.subtitle {
-      color: var(--text-muted);
-      font-size: 0.85rem;
-    }
-
-    .card {
-      background-color: var(--panel-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 16px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
-    }
-
-    /* Section Roue rotative */
-    .wheel-card {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .wheel-viewport {
-      position: relative;
-      width: 350px;
-      height: 350px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: grab;
-    }
-
-    .wheel-viewport:active {
-      cursor: grabbing;
-    }
-
-    canvas#wheelCanvas {
-      width: 350px;
-      height: 350px;
-      border-radius: 50%;
-      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.6);
-    }
-
-    .instructions {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      text-align: center;
-    }
-
-    /* Curseurs d'ambiance */
-    .sliders-panel {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      background: rgba(0, 0, 0, 0.25);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 12px 14px;
-    }
-
-    .slider-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .slider-row label {
-      font-size: 0.8rem;
-      min-width: 80px;
-      color: var(--text-muted);
-      font-weight: 500;
-    }
-
-    .slider-row input[type="range"] {
-      flex: 1;
-      accent-color: var(--accent-color);
-      cursor: pointer;
-    }
-
-    .slider-value {
-      font-size: 0.8rem;
-      font-family: monospace;
-      min-width: 42px;
-      text-align: right;
-    }
-
-    .reset-btn {
-      align-self: flex-end;
-      background: transparent;
-      border: 1px solid var(--border-color);
-      color: var(--text-muted);
-      padding: 4px 10px;
-      font-size: 0.75rem;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .reset-btn:hover {
-      background: var(--border-color);
-      color: #fff;
-    }
-
-    /* Harmonies */
-    .section-title {
-      font-size: 0.95rem;
-      font-weight: bold;
-      margin-bottom: 12px;
-      color: #fff;
-    }
-
-    .harmonies-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .harmony-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .harmony-label {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      font-weight: 600;
-    }
-
-    .color-row {
-      display: flex;
-      gap: 8px;
-    }
-
-    .color-block {
-      flex: 1;
-      height: 44px;
-      border-radius: 6px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 4px 8px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      cursor: pointer;
-      transition: transform 0.1s;
-    }
-
-    .color-block:hover {
-      transform: translateY(-2px);
-    }
-
-    .color-block span.title {
-      font-size: 0.7rem;
-      font-weight: bold;
-      color: #fff;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.8);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .color-block span.hex {
-      font-family: monospace;
-      font-size: 0.65rem;
-      color: #fff;
-      opacity: 0.9;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.8);
-    }
-
-    /* Déclinaisons */
-    .variations-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-    }
-
-    .var-item {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      align-items: center;
-    }
-
-    .var-box {
-      width: 100%;
-      height: 44px;
-      border-radius: 6px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      padding-bottom: 4px;
-      cursor: pointer;
-    }
-
-    .var-box span {
-      font-family: monospace;
-      font-size: 0.65rem;
-      color: #fff;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.8);
-    }
-
-    .var-title {
-      font-size: 0.68rem;
-      color: var(--text-muted);
-      text-align: center;
-    }
-
-    /* Simulateur de mélange */
-    .mixer-box {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .mix-preview {
-      height: 48px;
-      border-radius: 6px;
-      border: 1px solid var(--border-color);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: monospace;
-      font-size: 0.8rem;
-      font-weight: bold;
-      color: #fff;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
-      cursor: pointer;
-    }
-
-    .mix-controls {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .mix-controls span {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      min-width: 65px;
-    }
-
-    .mix-controls input[type="range"] {
-      flex: 1;
-      accent-color: var(--accent-color);
-      cursor: pointer;
-    }
-
-    .toast {
-      position: fixed;
-      bottom: 20px;
-      background: #10b981;
-      color: #fff;
-      padding: 7px 16px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 500;
-      display: none;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-      z-index: 100;
-    }
-
-    /* Passage en 1 colonne sur petit écran (mobile/tablette étroite) */
-    @media (max-width: 900px) {
-      .app-layout {
-        grid-template-columns: 1fr;
-      }
-      .wheel-card {
-        max-width: 460px;
-        margin: 0 auto;
-        width: 100%;
-      }
-    }
-  </style>
-</head>
-<body>
-
-  <div class="app-layout">
-    <!-- COLONNE GAUCHE : Titre, Roue d'atelier et Curseurs -->
-    <div class="col-left">
-      <header>
-        <h1>Roue Chromatique d'Atelier (RYB)</h1>
-        <p class="subtitle">Outil de synthèse soustractive et d'harmonie pour figurines</p>
-      </header>
-
-      <div class="card wheel-card">
-        <div class="wheel-viewport" id="viewport">
-          <canvas id="wheelCanvas" width="700" height="700"></canvas>
-        </div>
-        <div class="instructions">
-          <span>🖱 Cliquez et glissez sur le disque central pour faire pivoter la roue.</span>
-        </div>
-
-        <div class="sliders-panel">
-          <div class="slider-row">
-            <label for="saturationSlider">Saturation</label>
-            <input type="range" id="saturationSlider" min="0" max="100" value="100">
-            <span class="slider-value" id="saturationValue">100%</span>
-          </div>
-          <div class="slider-row">
-            <label for="lightnessSlider">Luminosité</label>
-            <input type="range" id="lightnessSlider" min="15" max="85" value="50">
-            <span class="slider-value" id="lightnessValue">50%</span>
-          </div>
-          <button class="reset-btn" id="resetControls">Réinitialiser teintes pures</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- COLONNE DROITE : Harmonies, Déclinaisons et Simulateur -->
-    <div class="col-right">
-      <!-- Harmonies Visuelles -->
-      <div class="card">
-        <div class="section-title">Harmonies Visuelles</div>
-        <div class="harmonies-list">
-          <div class="harmony-group">
-            <div class="harmony-label">Complémentaire Directe (Contraste maximal)</div>
-            <div class="color-row" id="compRow"></div>
-          </div>
-          <div class="harmony-group">
-            <div class="harmony-label">Complémentaires Divisées (Split)</div>
-            <div class="color-row" id="splitRow"></div>
-          </div>
-          <div class="harmony-group">
-            <div class="harmony-label">Triade Équilibrée</div>
-            <div class="color-row" id="triadRow"></div>
-          </div>
-          <div class="harmony-group">
-            <div class="harmony-label">Analogues (Ambiance et transition)</div>
-            <div class="color-row" id="analogRow"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 4 Déclinaisons d'Atelier -->
-      <div class="card">
-        <div class="section-title">Déclinaisons d'Atelier de la Teinte</div>
-        <div class="variations-grid">
-          <div class="var-item">
-            <div class="var-box" id="pureBox"><span id="pureHex"></span></div>
-            <div class="var-title">Teinte Clé</div>
-          </div>
-          <div class="var-item">
-            <div class="var-box" id="tintBox"><span id="tintHex"></span></div>
-            <div class="var-title">Éclaircie (+ Blanc)</div>
-          </div>
-          <div class="var-item">
-            <div class="var-box" id="toneBox"><span id="toneHex"></span></div>
-            <div class="var-title">Rompue (+ Gris)</div>
-          </div>
-          <div class="var-item">
-            <div class="var-box" id="shadeBox"><span id="shadeHex"></span></div>
-            <div class="var-title">Assombrie (+ Noir)</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Simulateur de mélange physique -->
-      <div class="card">
-        <div class="section-title">Simulateur de Neutralisation (Mélange RYB)</div>
-        <div class="mixer-box">
-          <div class="mix-preview" id="mixPreview">Aperçu du mélange</div>
-          <div class="mix-controls">
-            <span id="labelA">Base</span>
-            <input type="range" id="mixSlider" min="0" max="100" value="50">
-            <span id="labelB">Complément</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="toast" id="toast">Code HEX copié !</div>
-
-  <script>
-    const BASE_HUES = [
-      { name: "Rouge", h: 0 },
-      { name: "Rouge-Orange", h: 18 },
-      { name: "Orange", h: 36 },
-      { name: "Jaune-Orange", h: 48 },
-      { name: "Jaune", h: 60 },
-      { name: "Jaune-Vert", h: 85 },
-      { name: "Vert", h: 130 },
-      { name: "Bleu-Vert", h: 170 },
-      { name: "Bleu", h: 220 },
-      { name: "Bleu-Violet", h: 260 },
-      { name: "Violet", h: 285 },
-      { name: "Rouge-Violet", h: 320 }
-    ];
-
-    let currentRotation = 0;
-    let activeIndex = 0;
-    let currentSat = 100;
-    let currentLight = 50;
-
-    function hslToHex(h, s, l) {
-      l /= 100;
-      const a = (s * Math.min(l, 1 - l)) / 100;
-      const f = n => {
-        const k = (n + h / 30) % 12;
-        const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
-        return Math.round(255 * color).toString(16).padStart(2, '0');
-      };
-      return `#${f(0)}${f(8)}${f(4)}`.toUpperCase();
-    }
-
-    function hexToRgb(hex) {
-      const bigint = parseInt(hex.slice(1), 16);
-      return { r: (bigint >> 16) & 255, g: (bigint >> 8) & 255, b: bigint & 255 };
-    }
-
-    function rgbToHex(r, g, b) {
-      return "#" + [r, g, b].map(x => Math.round(Math.max(0, Math.min(255, x))).toString(16).padStart(2, '0')).join('').toUpperCase();
-    }
-
-    function getColor(index, satOffset = 0, lightOffset = 0) {
-      const idx = ((index % 12) + 12) % 12;
-      const item = BASE_HUES[idx];
-      const s = Math.max(0, Math.min(100, currentSat + satOffset));
-      const l = Math.max(0, Math.min(100, currentLight + lightOffset));
-      return {
-        name: item.name,
-        hex: hslToHex(item.h, s, l)
-      };
-    }
-
-    function draw() {
-      const canvas = document.getElementById('wheelCanvas');
-      const ctx = canvas.getContext('2d');
-      const cx = canvas.width / 2;
-      const cy = canvas.height / 2;
-      const outerR = cx - 12;
-      const maskR = outerR * 0.72;
-      const step = (2 * Math.PI) / 12;
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      ctx.beginPath();
-      ctx.arc(cx, cy, outerR + 6, 0, 2 * Math.PI);
-      ctx.fillStyle = '#111419';
-      ctx.fill();
-
-      ctx.save();
-      ctx.translate(cx, cy);
-      ctx.rotate(currentRotation);
-
-      for (let i = 0; i < 12; i++) {
-        const start = i * step - Math.PI / 2 - step / 2;
-        const end = start + step;
-
-        ctx.beginPath();
-        ctx.arc(0, 0, outerR, start, end);
-        ctx.arc(0, 0, maskR - 10, end, start, true);
-        ctx.closePath();
-
-        const color = getColor(i);
-        ctx.fillStyle = color.hex;
-        ctx.fill();
-
-        ctx.lineWidth = 3;
-        ctx.strokeStyle = '#1a1c23';
-        ctx.stroke();
-
-        const midAngle = start + step / 2;
-        const dotR = (outerR + maskR) / 2;
-        ctx.beginPath();
-        ctx.arc(Math.cos(midAngle) * dotR, Math.sin(midAngle) * dotR, 4.5, 0, 2 * Math.PI);
-        ctx.fillStyle = '#ffffff';
-        ctx.fill();
-      }
-      ctx.restore();
-
-      ctx.beginPath();
-      ctx.arc(cx, cy, maskR, 0, 2 * Math.PI);
-      ctx.fillStyle = '#222731';
-      ctx.fill();
-
-      ctx.lineWidth = 4;
-      ctx.strokeStyle = '#343c4a';
-      ctx.stroke();
-
-      ctx.lineWidth = 1;
-      ctx.strokeStyle = '#161920';
-      ctx.stroke();
-
-      const drawRay = (angle, color) => {
-        ctx.save();
-        ctx.beginPath();
-        ctx.setLineDash([4, 4]);
-        ctx.moveTo(cx, cy);
-        ctx.lineTo(cx + Math.cos(angle) * (maskR - 18), cy + Math.sin(angle) * (maskR - 18));
-        ctx.strokeStyle = color;
-        ctx.lineWidth = 1.5;
-        ctx.stroke();
-        ctx.restore();
-
-        ctx.beginPath();
-        ctx.arc(cx + Math.cos(angle) * (maskR - 22), cy + Math.sin(angle) * (maskR - 22), 4, 0, 2 * Math.PI);
-        ctx.fillStyle = color;
-        ctx.fill();
-      };
-
-      drawRay(-Math.PI / 2 - (2 * Math.PI / 12) * 1, '#10b981');
-      drawRay(-Math.PI / 2 + (2 * Math.PI / 12) * 1, '#10b981');
-      drawRay(-Math.PI / 2 - (2 * Math.PI / 12) * 3, '#f43f5e');
-      drawRay(-Math.PI / 2 + (2 * Math.PI / 12) * 3, '#f43f5e');
-      drawRay(-Math.PI / 2 - (2 * Math.PI / 12) * 4, '#a855f7');
-      drawRay(-Math.PI / 2 + (2 * Math.PI / 12) * 4, '#a855f7');
-      drawRay(Math.PI / 2, '#38bdf8');
-
-      ctx.beginPath();
-      const topY = cy - maskR + 18;
-      ctx.moveTo(cx, topY);
-      ctx.lineTo(cx - 15, topY + 28);
-      ctx.lineTo(cx + 15, topY + 28);
-      ctx.closePath();
-      ctx.fillStyle = '#ef4444';
-      ctx.fill();
-      ctx.lineWidth = 2;
-      ctx.strokeStyle = '#fff';
-      ctx.stroke();
-
-      ctx.fillStyle = '#ffffff';
-      ctx.font = 'bold 19px -apple-system, BlinkMacSystemFont, sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText('TEINTE CLÉ', cx, topY + 54);
-
-      const botY = cy + maskR - 18;
-      ctx.beginPath();
-      ctx.moveTo(cx, botY);
-      ctx.lineTo(cx - 13, botY - 24);
-      ctx.lineTo(cx + 13, botY - 24);
-      ctx.closePath();
-      ctx.fillStyle = '#0284c7';
-      ctx.fill();
-      ctx.lineWidth = 1.5;
-      ctx.strokeStyle = '#38bdf8';
-      ctx.stroke();
-
-      ctx.fillStyle = '#38bdf8';
-      ctx.font = 'bold 17px -apple-system, BlinkMacSystemFont, sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText('COMPLÉMENTAIRE', cx, botY - 36);
-
-      ctx.beginPath();
-      ctx.arc(cx, cy, 44, 0, 2 * Math.PI);
-      ctx.fillStyle = '#2d3340';
-      ctx.fill();
-      ctx.lineWidth = 3;
-      ctx.strokeStyle = '#cbd5e1';
-      ctx.stroke();
-
-      ctx.beginPath();
-      ctx.arc(cx, cy, 16, 0, 2 * Math.PI);
-      ctx.fillStyle = '#cbd5e1';
-      ctx.fill();
-    }
-
-    function copyHex(hex) {
-      navigator.clipboard.writeText(hex).then(() => {
-        const toast = document.getElementById('toast');
-        toast.textContent = `Code ${hex} copié !`;
-        toast.style.display = 'block';
-        setTimeout(() => { toast.style.display = 'none'; }, 2000);
-      });
-    }
-
-    function createColorBlock(index) {
-      const col = getColor(index);
-      const div = document.createElement('div');
-      div.className = 'color-block';
-      div.style.backgroundColor = col.hex;
-      div.innerHTML = `<span class="title">${col.name}</span><span class="hex">${col.hex}</span>`;
-      div.onclick = () => copyHex(col.hex);
-      return div;
-    }
-
-    function updateDetails() {
-      const step = (2 * Math.PI) / 12;
-      let normalized = (-currentRotation) % (2 * Math.PI);
-      if (normalized < 0) normalized += 2 * Math.PI;
-      activeIndex = Math.round(normalized / step) % 12;
-
-      const compRow = document.getElementById('compRow');
-      compRow.innerHTML = '';
-      compRow.appendChild(createColorBlock(activeIndex));
-      compRow.appendChild(createColorBlock(activeIndex + 6));
-
-      const splitRow = document.getElementById('splitRow');
-      splitRow.innerHTML = '';
-      splitRow.appendChild(createColorBlock(activeIndex));
-      splitRow.appendChild(createColorBlock(activeIndex + 5));
-      splitRow.appendChild(createColorBlock(activeIndex + 7));
-
-      const triadRow = document.getElementById('triadRow');
-      triadRow.innerHTML = '';
-      triadRow.appendChild(createColorBlock(activeIndex));
-      triadRow.appendChild(createColorBlock(activeIndex + 4));
-      triadRow.appendChild(createColorBlock(activeIndex + 8));
-
-      const analogRow = document.getElementById('analogRow');
-      analogRow.innerHTML = '';
-      analogRow.appendChild(createColorBlock(activeIndex - 1));
-      analogRow.appendChild(createColorBlock(activeIndex));
-      analogRow.appendChild(createColorBlock(activeIndex + 1));
-
-      const keyCol = getColor(activeIndex);
-      const pure = keyCol.hex;
-      const tint = getColor(activeIndex, 0, 20).hex;
-      const tone = getColor(activeIndex, -45, 0).hex;
-      const shade = getColor(activeIndex, 0, -20).hex;
-
-      const setVar = (boxId, hexId, hex) => {
-        const b = document.getElementById(boxId);
-        b.style.backgroundColor = hex;
-        document.getElementById(hexId).textContent = hex;
-        b.onclick = () => copyHex(hex);
-      };
-
-      setVar('pureBox', 'pureHex', pure);
-      setVar('tintBox', 'tintHex', tint);
-      setVar('toneBox', 'toneHex', tone);
-      setVar('shadeBox', 'shadeHex', shade);
-
-      updateMixer();
-    }
-
-    function updateMixer() {
-      const colA = getColor(activeIndex);
-      const colB = getColor(activeIndex + 6);
-      const ratio = document.getElementById('mixSlider').value / 100;
-
-      document.getElementById('labelA').textContent = colA.name;
-      document.getElementById('labelB').textContent = colB.name;
-
-      const rgbA = hexToRgb(colA.hex);
-      const rgbB = hexToRgb(colB.hex);
-
-      const mixR = rgbA.r * (1 - ratio) + rgbB.r * ratio;
-      const mixG = rgbA.g * (1 - ratio) + rgbB.g * ratio;
-      const mixB = rgbA.b * (1 - ratio) + rgbB.b * ratio;
-      const factor = 1 - Math.sin(ratio * Math.PI) * 0.18;
-
-      const mixedHex = rgbToHex(mixR * factor, mixG * factor, mixB * factor);
-
-      const preview = document.getElementById('mixPreview');
-      preview.style.backgroundColor = mixedHex;
-      preview.textContent = `${mixedHex} (Cliquer pour copier)`;
-      preview.onclick = () => copyHex(mixedHex);
-    }
-
-    const viewport = document.getElementById('viewport');
-    let isDragging = false;
-    let startAngle = 0;
-    let baseRotation = 0;
-
-    function getAngle(e) {
-      const rect = viewport.getBoundingClientRect();
-      const cx = rect.left + rect.width / 2;
-      const cy = rect.top + rect.height / 2;
-      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-      return Math.atan2(clientY - cy, clientX - cx);
-    }
-
-    function onPointerDown(e) {
-      isDragging = true;
-      startAngle = getAngle(e);
-      baseRotation = currentRotation;
-      e.preventDefault();
-    }
-
-    function onPointerMove(e) {
-      if (!isDragging) return;
-      const current = getAngle(e);
-      currentRotation = baseRotation + (current - startAngle);
-      draw();
-      updateDetails();
-    }
-
-    function onPointerUp() {
-      isDragging = false;
-    }
-
-    viewport.addEventListener('mousedown', onPointerDown);
-    window.addEventListener('mousemove', onPointerMove);
-    window.addEventListener('mouseup', onPointerUp);
-
-    viewport.addEventListener('touchstart', onPointerDown, { passive: false });
-    window.addEventListener('touchmove', onPointerMove, { passive: false });
-    window.addEventListener('touchend', onPointerUp);
-
-    const satSlider = document.getElementById('saturationSlider');
-    const lightSlider = document.getElementById('lightnessSlider');
-    const satVal = document.getElementById('saturationValue');
-    const lightVal = document.getElementById('lightnessValue');
-
-    satSlider.addEventListener('input', (e) => {
-      currentSat = parseInt(e.target.value, 10);
-      satVal.textContent = `${currentSat}%`;
-      draw();
-      updateDetails();
-    });
-
-    lightSlider.addEventListener('input', (e) => {
-      currentLight = parseInt(e.target.value, 10);
-      lightVal.textContent = `${currentLight}%`;
-      draw();
-      updateDetails();
-    });
-
-    document.getElementById('resetControls').addEventListener('click', () => {
-      currentSat = 100;
-      currentLight = 50;
-      satSlider.value = 100;
-      lightSlider.value = 50;
-      satVal.textContent = '100%';
-      lightVal.textContent = '50%';
-      draw();
-      updateDetails();
-    });
-
-    document.getElementById('mixSlider').addEventListener('input', updateMixer);
-
-    draw();
-    updateDetails();
-  </script>
-</body>
-</html>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roue Chromatique d'Atelier (RYB) v3.4</title>
+    <style>
+        :root {
+            --bg-color: #12141a;
+            --panel-bg: #1c202a;
+            --card-inner: #161922;
+            --text-color: #e2e8f0;
+            --text-muted: #94a3b8;
+            --accent-color: #3b82f6;
+            --accent-hover: #2563eb;
+            --border-color: #2d3748;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 16px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            user-select: none;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            margin: 0 0 6px 0;
+            font-size: 1.7rem;
+            letter-spacing: -0.5px;
+        }
+
+        p.subtitle {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: 350px 430px 400px;
+            gap: 20px;
+            max-width: 1240px;
+            width: 100%;
+            align-items: start;
+        }
+
+        @media (max-width: 1200px) {
+            .workspace-grid {
+                grid-template-columns: 1fr;
+                justify-items: center;
+            }
+            .left-panel, .center-panel, .right-panel {
+                width: 100%;
+                max-width: 500px;
+            }
+        }
+
+        .card {
+            background-color: var(--panel-bg);
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+            border: 1px solid var(--border-color);
+            margin-bottom: 16px;
+        }
+
+        .card:last-child {
+            margin-bottom: 0;
+        }
+
+        .card h2 {
+            font-size: 1.05rem;
+            margin: 0 0 12px 0;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .wheel-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 16px;
+        }
+
+        .wheel-wrapper {
+            position: relative;
+            width: 390px;
+            height: 390px;
+            touch-action: none;
+            cursor: grab;
+        }
+
+        .wheel-wrapper:active {
+            cursor: grabbing;
+        }
+
+        svg {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+
+        .wheel-nav {
+            display: flex;
+            gap: 8px;
+            margin-top: 14px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .nav-btn {
+            background: var(--card-inner);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 6px 12px;
