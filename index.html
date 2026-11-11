@@ -143,3 +143,1297 @@
             border: 1px solid var(--border-color);
             color: var(--text-color);
             padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .nav-btn:hover {
+            background: var(--border-color);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background-color: var(--card-inner);
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+            padding: 5px 9px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.78rem;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            background-color: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+
+        .harmony-results {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(75px, 1fr));
+            gap: 8px;
+        }
+
+        .color-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .swatch {
+            width: 100%;
+            height: 38px;
+            border-radius: 6px;
+            border: 2px solid rgba(255,255,255,0.15);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+            cursor: pointer;
+            transition: transform 0.15s ease;
+        }
+
+        .swatch:hover {
+            transform: scale(1.05);
+        }
+
+        .color-label {
+            font-size: 0.72rem;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .color-hex {
+            font-size: 0.68rem;
+            color: var(--text-muted);
+            font-family: monospace;
+        }
+
+        .shades-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .mix-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .mix-preview {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--card-inner);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .mix-swatch {
+            width: 44px;
+            height: 44px;
+            border-radius: 6px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .slider-container {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .slider-container input[type=range] {
+            width: 100%;
+            accent-color: var(--accent-color);
+        }
+
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.72rem;
+            color: var(--text-muted);
+        }
+
+        .mix-result-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--card-inner);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .mix-result-swatch {
+            width: 52px;
+            height: 52px;
+            border-radius: 8px;
+            border: 2px solid #fff;
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+
+        .badge {
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: #2d3748;
+            color: #cbd5e1;
+        }
+
+        .paint-equivalences {
+            margin-top: 12px;
+            background: var(--card-inner);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .paint-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            align-items: center;
+        }
+
+        .paint-brand {
+            font-weight: bold;
+            color: var(--text-muted);
+        }
+
+        .paint-name {
+            color: #e2e8f0;
+            text-align: right;
+            font-family: monospace;
+        }
+
+        .wheel-adjusters {
+            width: 100%;
+            margin-top: 16px;
+            background: var(--card-inner);
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* Module OSL */
+        .osl-presets {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+
+        .btn-light {
+            background: var(--card-inner);
+            color: #cbd5e1;
+            border: 1px solid var(--border-color);
+            padding: 5px 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .btn-light:hover {
+            border-color: #64748b;
+        }
+
+        .btn-light.active {
+            background: #1e293b;
+            border-color: var(--accent-color);
+            color: #fff;
+            box-shadow: 0 0 8px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-light span.dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .osl-sphere-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #0a0c10;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 12px;
+        }
+
+        #osl-canvas {
+            border-radius: 50%;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.6);
+        }
+
+        .osl-reaction-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            background: var(--card-inner);
+            padding: 8px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            font-size: 0.75rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .osl-swatch-mini {
+            width: 28px;
+            height: 28px;
+            border-radius: 4px;
+            border: 1px solid rgba(255,255,255,0.2);
+            cursor: pointer;
+        }
+
+        .osl-advice-box {
+            background: #131720;
+            border-left: 3px solid var(--accent-color);
+            padding: 8px 10px;
+            border-radius: 0 6px 6px 0;
+            font-size: 0.78rem;
+            line-height: 1.45;
+            color: #cbd5e1;
+        }
+
+        /* Module Photo & Loupe */
+        .dropzone {
+            border: 2px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: var(--card-inner);
+            margin-bottom: 12px;
+        }
+
+        .dropzone:hover {
+            border-color: var(--accent-color);
+            background: #1a2234;
+        }
+
+        .preview-container {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .image-viewport-wrapper {
+            position: relative;
+            background: #000;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 260px;
+        }
+
+        #ref-canvas {
+            cursor: crosshair;
+            transform-origin: center center;
+            transition: transform 0.05s ease-out;
+        }
+
+        #zoom-lens {
+            display: none;
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid #38bdf8;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.8), inset 0 0 8px rgba(0,0,0,0.5);
+            pointer-events: none;
+            overflow: hidden;
+            background-color: #000;
+            z-index: 50;
+        }
+
+        #lens-canvas {
+            width: 100%;
+            height: 100%;
+            image-rendering: pixelated;
+        }
+
+        .lens-crosshair {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 10px;
+            height: 10px;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        .lens-crosshair::before, .lens-crosshair::after {
+            content: '';
+            position: absolute;
+            background: #ff0055;
+        }
+
+        .lens-crosshair::before {
+            top: 4px; left: -10px; width: 30px; height: 2px;
+        }
+        .lens-crosshair::after {
+            top: -10px; left: 4px; width: 2px; height: 30px;
+        }
+
+        .ref-tools {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .ref-readout {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            background: var(--card-inner);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .value-meter {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .meter-bar {
+            height: 8px;
+            background: #334155;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .meter-fill {
+            height: 100%;
+            background: #38bdf8;
+            width: 50%;
+            transition: width 0.15s;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Roue Chromatique d'Atelier (RYB)</h1>
+        <p class="subtitle">Palette physique rotative, équivalences pots, optique OSL & analyseur de référence haute précision</p>
+    </header>
+
+    <div class="workspace-grid">
+        <!-- Colonne Gauche : Teinte, Pots, Harmonies, Neutralisation -->
+        <div class="left-panel">
+            <div class="card">
+                <h2>Teinte active <span id="current-angle" class="badge">0°</span></h2>
+                <div style="display:flex; align-items:center; gap:14px;">
+                    <div id="main-swatch" class="swatch" style="width:52px; height:52px; border-radius:8px; border:2px solid #fff; flex-shrink:0;"></div>
+                    <div>
+                        <div id="color-name" style="font-size:1.1rem; font-weight:bold;">Rouge</div>
+                        <div id="color-cat" class="badge" style="margin-top:3px; display:inline-block;">Couleur Primaire</div>
+                        <div id="color-hex-main" style="font-family:monospace; color:var(--text-muted); font-size:0.8rem; margin-top:3px; cursor:pointer;" title="Cliquer pour copier">#FE2712</div>
+                    </div>
+                </div>
+
+                <div class="paint-equivalences">
+                    <div style="font-size:0.75rem; font-weight:bold; margin-bottom:4px; color:#cbd5e1;">Pots conseillés à l'établi :</div>
+                    <div class="paint-row">
+                        <span class="paint-brand">Citadel :</span>
+                        <span class="paint-name" id="pot-citadel">Mephiston Red</span>
+                    </div>
+                    <div class="paint-row">
+                        <span class="paint-brand">Vallejo :</span>
+                        <span class="paint-name" id="pot-vallejo">Mod. Col. Rouge Carmin</span>
+                    </div>
+                    <div class="paint-row">
+                        <span class="paint-brand">Army Painter :</span>
+                        <span class="paint-name" id="pot-ap">Pure Red</span>
+                    </div>
+                </div>
+
+                <div style="margin-top:12px;">
+                    <span style="font-size:0.8rem; font-weight:600;">Déclinaisons (Pure / Éclaircie / Rompue / Ombre) :</span>
+                    <div class="shades-row" id="shades-container"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Harmonies Géométriques</h2>
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="setHarmony('comp')">Complémentaire</button>
+                    <button class="tab-btn" onclick="setHarmony('split')">Opposé divisé (Split)</button>
+                    <button class="tab-btn" onclick="setHarmony('triad')">Triade</button>
+                    <button class="tab-btn" onclick="setHarmony('tetrad')">Tétrade</button>
+                    <button class="tab-btn" onclick="setHarmony('analog')">Analogue</button>
+                </div>
+                <div class="harmony-results" id="harmony-container"></div>
+            </div>
+
+            <div class="card">
+                <h2>Neutralisation & Ombres Naturelles</h2>
+                <p style="font-size:0.72rem; color:var(--text-muted); margin:0 0 10px 0; line-height:1.3;">
+                    Mélangez la couleur avec sa complémentaire pour assombrir et désaturer sans salir au noir.
+                </p>
+                <div class="mix-container">
+                    <div class="mix-preview">
+                        <div class="color-box">
+                            <div class="mix-swatch" id="mix-c1"></div>
+                            <span class="color-label" id="mix-label1">Couleur 1</span>
+                        </div>
+                        <div style="font-weight:bold; font-size:1.1rem; color:var(--text-muted);">+</div>
+                        <div class="color-box">
+                            <div class="mix-swatch" id="mix-c2"></div>
+                            <span class="color-label" id="mix-label2">Complémentaire</span>
+                        </div>
+                    </div>
+
+                    <div class="slider-container">
+                        <div class="slider-labels">
+                            <span id="ratio-label-1">50% C1</span>
+                            <span>Ratio de mélange</span>
+                            <span id="ratio-label-2">50% C2</span>
+                        </div>
+                        <input type="range" id="mix-ratio" min="0" max="100" value="50" oninput="updateMix()">
+                    </div>
+
+                    <div class="mix-result-box">
+                        <div class="mix-result-swatch" id="mix-result" title="Cliquer pour copier"></div>
+                        <div>
+                            <div style="font-size:0.82rem; font-weight:bold;">Mélange obtenu :</div>
+                            <div id="mix-desc" style="font-size:0.75rem; color:#cbd5e1; margin-top:2px;">Gris chromatique neutre</div>
+                            <div id="mix-hex" style="font-family:monospace; color:var(--text-muted); font-size:0.75rem;">#...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Colonne Centre : Roue SVG + Sliders Saturation/Luminosité -->
+        <div class="center-panel">
+            <div class="card wheel-card">
+                <div class="wheel-wrapper" id="wheel-wrapper">
+                    <svg id="wheel-svg" viewBox="-210 -210 420 420">
+                        <g id="base-wheel"></g>
+                        <g id="rotatable-disc">
+                            <circle cx="0" cy="0" r="140" fill="#1c202a" stroke="#475569" stroke-width="3" filter="drop-shadow(0 4px 8px rgba(0,0,0,0.5))"/>
+                            <circle cx="0" cy="0" r="135" fill="none" stroke="#334155" stroke-width="1" stroke-dasharray="4 4"/>
+                            <g id="disc-markings"></g>
+                            <circle cx="0" cy="0" r="28" fill="#111827" stroke="#94a3b8" stroke-width="2"/>
+                            <circle cx="0" cy="0" r="8" fill="#cbd5e1"/>
+                            <!-- TEINTE CLÉ (0°) -->
+                            <path d="M 0 -135 L -8 -115 L 8 -115 Z" fill="#ef4444" stroke="#fff" stroke-width="1.5" />
+                            <text x="0" y="-95" text-anchor="middle" fill="#f8fafc" font-size="11" font-weight="bold">TEINTE CLÉ</text>
+                            <!-- COMPLÉMENTAIRE (180°) -->
+                            <text x="0" y="98" text-anchor="middle" fill="#38bdf8" font-size="10" font-weight="bold">COMPLÉMENTAIRE</text>
+                            <path d="M 0 135 L -6 120 L 6 120 Z" fill="#38bdf8" />
+                        </g>
+                    </svg>
+                </div>
+
+                <div class="wheel-nav">
+                    <button class="nav-btn" onclick="stepWheel(-1)">◀ Teinte précédente</button>
+                    <button class="nav-btn" onclick="stepWheel(1)">Teinte suivante ▶</button>
+                </div>
+
+                <div class="wheel-adjusters">
+                    <div class="slider-container">
+                        <div class="slider-labels">
+                            <span>Saturation globale : <b id="val-sat">100%</b></span>
+                            <span style="cursor:pointer; color:var(--accent-color);" onclick="resetAtmosphere()">Réinitialiser</span>
+                        </div>
+                        <input type="range" id="wheel-sat" min="20" max="100" value="100" oninput="applyWheelAtmosphere()">
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-labels">
+                            <span>Luminosité globale : <b id="val-lum">100%</b></span>
+                            <span style="font-size:0.68rem; color:var(--text-muted);">(Grimdark / Pastel)</span>
+                        </div>
+                        <input type="range" id="wheel-lum" min="40" max="140" value="100" oninput="applyWheelAtmosphere()">
+                    </div>
+                </div>
+
+                <p class="instructions" style="font-size:0.75rem; color:var(--text-muted); margin-top:8px;">Faites glisser le disque central ou cliquez sur un quartier.</p>
+            </div>
+        </div>
+
+        <!-- Colonne Droite : OSL & Photo Référence avec Zoom -->
+        <div class="right-panel">
+            <div class="card">
+                <h2>Simulation Optique & OSL <span class="badge" style="background:#047857; color:#a7f3d0;">Physique</span></h2>
+                <div class="osl-presets">
+                    <button class="btn-light active" data-light="#FFFFFF" onclick="selectLight(this, '#FFFFFF')"><span class="dot" style="background:#FFF;"></span>Soleil</button>
+                    <button class="btn-light" data-light="#FFA500" onclick="selectLight(this, '#FFA500')"><span class="dot" style="background:#FFA500;"></span>Flamme</button>
+                    <button class="btn-light" data-light="#00FF44" onclick="selectLight(this, '#00FF44')"><span class="dot" style="background:#00FF44;"></span>Plasma Vert</button>
+                    <button class="btn-light" data-light="#00E5FF" onclick="selectLight(this, '#00E5FF')"><span class="dot" style="background:#00E5FF;"></span>Cyan Magic</button>
+                    <button class="btn-light" data-light="#FF1122" onclick="selectLight(this, '#FF1122')"><span class="dot" style="background:#FF1122;"></span>Alarme</button>
+                </div>
+
+                <div class="osl-sphere-wrapper">
+                    <canvas id="osl-canvas" width="130" height="130"></canvas>
+                </div>
+
+                <div class="osl-reaction-row">
+                    <div style="text-align:center;">
+                        <span style="font-size:0.65rem; color:var(--text-muted); display:block;">Pigment</span>
+                        <div id="osl-pigment-swatch" class="osl-swatch-mini"></div>
+                    </div>
+                    <div style="font-weight:bold; color:var(--text-muted);">×</div>
+                    <div style="text-align:center;">
+                        <span style="font-size:0.65rem; color:var(--text-muted); display:block;">Lumière</span>
+                        <div id="osl-light-swatch" class="osl-swatch-mini"></div>
+                    </div>
+                    <div style="font-weight:bold; color:var(--text-muted);">=</div>
+                    <div style="text-align:center;">
+                        <span style="font-size:0.65rem; color:var(--text-muted); display:block;">Rendu</span>
+                        <div id="osl-result-swatch" class="osl-swatch-mini"></div>
+                    </div>
+                </div>
+
+                <div class="osl-advice-box" id="osl-advice">
+                    Calcul de la réaction optique...
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Photo Référence & Loupe <span class="badge" id="zoom-badge">Zoom x1</span></h2>
+                
+                <div class="dropzone" id="drop-zone" onclick="document.getElementById('file-input').click()">
+                    <span style="font-size:1.4rem;">Photo</span>
+                    <div style="font-size:0.8rem; font-weight:bold; margin-top:4px;">Déposez une image ou cliquez</div>
+                    <div style="font-size:0.7rem; color:var(--text-muted);">Loupe de visée & analyse de valeur</div>
+                    <input type="file" id="file-input" accept="image/*" style="display:none;" onchange="handleFile(this.files[0])">
+                </div>
+
+                <div class="preview-container" id="preview-container">
+                    <div class="image-viewport-wrapper" id="viewport-wrapper">
+                        <canvas id="ref-canvas"></canvas>
+                        <div id="zoom-lens">
+                            <canvas id="lens-canvas" width="100" height="100"></canvas>
+                            <div class="lens-crosshair"></div>
+                        </div>
+                    </div>
+
+                    <div class="ref-tools">
+                        <button class="nav-btn" style="font-size:0.72rem; padding:4px 8px;" onclick="toggleGrayscale()">Toggle N&B</button>
+                        <button class="nav-btn" style="font-size:0.72rem; padding:4px 8px;" onclick="resetImageZoom()">Reset Zoom</button>
+                        <button class="nav-btn" style="font-size:0.72rem; padding:4px 8px;" onclick="alignWheelToSample()">Caler la roue ici</button>
+                    </div>
+
+                    <div class="ref-readout">
+                        <div id="ref-sample-swatch" class="swatch" style="width:40px; height:40px; flex-shrink:0;"></div>
+                        <div class="value-meter">
+                            <div style="display:flex; justify-content:space-between; font-size:0.72rem;">
+                                <span id="ref-sample-name">Point ciblé</span>
+                                <span id="ref-sample-value">Valeur : 50%</span>
+                            </div>
+                            <div class="meter-bar">
+                                <div class="meter-fill" id="meter-fill"></div>
+                            </div>
+                            <div id="ref-sample-stage" style="font-size:0.68rem; color:var(--text-muted);">Zone : Demi-teinte</div>
+                            <div id="ref-sample-pot" style="font-size:0.7rem; color:#38bdf8; font-weight:bold; margin-top:2px;">Pot approchant : -</div>
+                        </div>
+                    </div>
+                    <div style="font-size:0.68rem; color:var(--text-muted); text-align:center; margin-top:6px;">
+                        Molette : Zoom avant/arrière sur la photo. Survol : Loupe de précision au pixel.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer style="margin-top: 30px; margin-bottom: 15px; text-align: center; font-size: 0.8rem; color: #94a3b8; border-top: 1px solid #2d3748; padding-top: 14px; width: 100%; max-width: 1240px;">
+        (c) 2026 <strong style="color: #cbd5e1;">Marc BRONKAERT</strong> (bloow85). Tous droits réservés. Outil autonome conçu pour figurinistes & modélistes.
+    </footer>
+
+    <script>
+        const RYB_BASE = [
+            { 
+                name: "Rouge", baseHex: "#FE2712", type: "Primaire", baseRgb: [254, 39, 18],
+                pots: { citadel: "Mephiston Red", vallejo: "Mod. Col. Rouge Carmin (70.908)", armyPainter: "Pure Red" }
+            },
+            { 
+                name: "Rouge-Orangé", baseHex: "#FC600A", type: "Tertiaire", baseRgb: [252, 96, 10],
+                pots: { citadel: "Troll Slayer Orange", vallejo: "Mod. Col. Rouge Vermillon (70.909)", armyPainter: "Rust Orange" }
+            },
+            { 
+                name: "Orange", baseHex: "#FB9902", type: "Secondaire", baseRgb: [251, 153, 2],
+                pots: { citadel: "Fire Dragon Bright", vallejo: "Game Col. Orange Feu (72.008)", armyPainter: "Hot Orange" }
+            },
+            { 
+                name: "Jaune-Orangé", baseHex: "#FCCC1A", type: "Tertiaire", baseRgb: [252, 204, 26],
+                pots: { citadel: "Averland Sunset", vallejo: "Mod. Col. Jaune Profond (70.915)", armyPainter: "Bright Gold" }
+            },
+            { 
+                name: "Jaune", baseHex: "#FEFE33", type: "Primaire", baseRgb: [254, 254, 51],
+                pots: { citadel: "Flash Gitz Yellow", vallejo: "Mod. Col. Jaune Primaire (70.953)", armyPainter: "Daemonic Yellow" }
+            },
+            { 
+                name: "Jaune-Vert", baseHex: "#B2D732", type: "Tertiaire", baseRgb: [178, 215, 50],
+                pots: { citadel: "Moot Green", vallejo: "Game Col. Vert Écume (72.033)", armyPainter: "Sub-Lime" }
+            },
+            { 
+                name: "Vert", baseHex: "#66B032", type: "Secondaire", baseRgb: [102, 176, 50],
+                pots: { citadel: "Warpstone Glow", vallejo: "Mod. Col. Vert Permanent (70.968)", armyPainter: "Greenskin" }
+            },
+            { 
+                name: "Bleu-Vert", baseHex: "#347C98", type: "Tertiaire", baseRgb: [52, 124, 152],
+                pots: { citadel: "Sotek Green", vallejo: "Mod. Col. Turquoise (70.966)", armyPainter: "Hydra Turquoise" }
+            },
+            { 
+                name: "Bleu", baseHex: "#0247FE", type: "Primaire", baseRgb: [2, 71, 254],
+                pots: { citadel: "Macragge Blue", vallejo: "Mod. Col. Bleu Royal (70.899)", armyPainter: "Regal Blue" }
+            },
+            { 
+                name: "Bleu-Violet", baseHex: "#4424D6", type: "Tertiaire", baseRgb: [68, 36, 214],
+                pots: { citadel: "Alaitoc Blue", vallejo: "Mod. Col. Bleu Intense (70.925)", armyPainter: "Deep Azure" }
+            },
+            { 
+                name: "Violet", baseHex: "#8601AF", type: "Secondaire", baseRgb: [134, 1, 175],
+                pots: { citadel: "Xereus Purple", vallejo: "Game Col. Violet Impérial (72.016)", armyPainter: "Alien Purple" }
+            },
+            { 
+                name: "Rouge-Violet", baseHex: "#C21460", type: "Tertiaire", baseRgb: [194, 20, 96],
+                pots: { citadel: "Screamer Pink", vallejo: "Mod. Col. Magenta (70.945)", armyPainter: "Warlock Magenta" }
+            }
+        ];
+
+        let RYB_COLORS = JSON.parse(JSON.stringify(RYB_BASE)).map(c => {
+            c.hex = c.baseHex;
+            c.rgb = [...c.baseRgb];
+            return c;
+        });
+
+        let currentRotation = 0;
+        let selectedIndex = 0;
+        let activeHarmony = 'comp';
+        let currentLight = { r: 255, g: 255, b: 255 };
+        let sampledColor = { r: 254, g: 39, b: 18, hex: "#FE2712", value: 50 };
+        let isGrayscale = false;
+
+        function initWheel() {
+            const baseG = document.getElementById('base-wheel');
+            baseG.innerHTML = '';
+            const total = 12;
+            const arcAngle = 360 / total;
+            const rInner = 140;
+            const rOuter = 200;
+
+            for (let i = 0; i < total; i++) {
+                const startAngle = (i * arcAngle - 90 - arcAngle/2) * Math.PI / 180;
+                const endAngle = (i * arcAngle - 90 + arcAngle/2) * Math.PI / 180;
+
+                const x1 = rOuter * Math.cos(startAngle);
+                const y1 = rOuter * Math.sin(startAngle);
+                const x2 = rOuter * Math.cos(endAngle);
+                const y2 = rOuter * Math.sin(endAngle);
+                const x3 = rInner * Math.cos(endAngle);
+                const y3 = rInner * Math.sin(endAngle);
+                const x4 = rInner * Math.cos(startAngle);
+                const y4 = rInner * Math.sin(startAngle);
+
+                const d = `M ${x1} ${y1} A ${rOuter} ${rOuter} 0 0 1 ${x2} ${y2} L ${x3} ${y3} A ${rInner} ${rInner} 0 0 0 ${x4} ${y4} Z`;
+
+                const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                path.setAttribute("d", d);
+                path.setAttribute("fill", RYB_COLORS[i].hex);
+                path.setAttribute("id", `wheel-sector-${i}`);
+                path.setAttribute("stroke", "#12141a");
+                path.setAttribute("stroke-width", "2");
+                path.style.cursor = "pointer";
+                path.addEventListener('click', () => rotateToIndex(i));
+                baseG.appendChild(path);
+
+                const midAngle = (i * arcAngle - 90) * Math.PI / 180;
+                const tx = (rOuter - 16) * Math.cos(midAngle);
+                const ty = (rOuter - 16) * Math.sin(midAngle);
+                const dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                dot.setAttribute("cx", tx);
+                dot.setAttribute("cy", ty);
+                dot.setAttribute("r", RYB_COLORS[i].type === 'Primaire' ? 4 : (RYB_COLORS[i].type === 'Secondaire' ? 3 : 1.5));
+                dot.setAttribute("fill", "#ffffff");
+                dot.setAttribute("opacity", "0.85");
+                baseG.appendChild(dot);
+            }
+
+            drawDiscMarkings();
+            updateAll();
+            initDropZone();
+            initCanvasZoomAndLens();
+        }
+
+        function drawDiscMarkings() {
+            const discG = document.getElementById('disc-markings');
+            discG.innerHTML = '';
+            const harmonies = [
+                { angle: 180, color: '#38bdf8', r: 5 },
+                { angle: 120, color: '#a855f7', r: 4 },
+                { angle: 240, color: '#a855f7', r: 4 },
+                { angle: 90, color: '#ec4899', r: 3.5 },
+                { angle: 270, color: '#ec4899', r: 3.5 },
+                { angle: 30, color: '#10b981', r: 3 },
+                { angle: 330, color: '#10b981', r: 3 }
+            ];
+
+            harmonies.forEach(h => {
+                const rad = (h.angle - 90) * Math.PI / 180;
+                const x = 125 * Math.cos(rad);
+                const y = 125 * Math.sin(rad);
+
+                const c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                c.setAttribute("cx", x);
+                c.setAttribute("cy", y);
+                c.setAttribute("r", h.r);
+                c.setAttribute("fill", h.color);
+                discG.appendChild(c);
+
+                const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                line.setAttribute("x1", 35 * Math.cos(rad));
+                line.setAttribute("y1", 35 * Math.sin(rad));
+                line.setAttribute("x2", 115 * Math.cos(rad));
+                line.setAttribute("y2", 115 * Math.sin(rad));
+                line.setAttribute("stroke", h.color);
+                line.setAttribute("stroke-width", "1");
+                line.setAttribute("stroke-dasharray", "3 3");
+                line.setAttribute("opacity", "0.4");
+                discG.appendChild(line);
+            });
+        }
+
+        let isDragging = false;
+        let startAngle = 0;
+        const wrapper = document.getElementById('wheel-wrapper');
+
+        function getAngle(e) {
+            const rect = wrapper.getBoundingClientRect();
+            const cx = rect.left + rect.width / 2;
+            const cy = rect.top + rect.height / 2;
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            let deg = Math.atan2(clientY - cy, clientX - cx) * 180 / Math.PI + 90;
+            if (deg < 0) deg += 360;
+            return deg;
+        }
+
+        wrapper.addEventListener('pointerdown', (e) => {
+            isDragging = true;
+            startAngle = getAngle(e) - currentRotation;
+            wrapper.setPointerCapture(e.pointerId);
+        });
+
+        wrapper.addEventListener('pointermove', (e) => {
+            if (!isDragging) return;
+            const deg = getAngle(e);
+            currentRotation = (deg - startAngle) % 360;
+            if (currentRotation < 0) currentRotation += 360;
+            document.getElementById('rotatable-disc').setAttribute('transform', `rotate(${currentRotation})`);
+
+            const normalized = (360 - currentRotation + 15) % 360;
+            const newIndex = Math.floor(normalized / 30) % 12;
+            if (newIndex !== selectedIndex) {
+                selectedIndex = newIndex;
+                updateAll();
+            }
+        });
+
+        wrapper.addEventListener('pointerup', () => {
+            if (!isDragging) return;
+            isDragging = false;
+            snapWheel();
+        });
+
+        function snapWheel() {
+            const targetRotation = Math.round(currentRotation / 30) * 30;
+            currentRotation = (targetRotation % 360 + 360) % 360;
+            document.getElementById('rotatable-disc').setAttribute('transform', `rotate(${currentRotation})`);
+            const normalized = (360 - currentRotation + 15) % 360;
+            selectedIndex = Math.floor(normalized / 30) % 12;
+            updateAll();
+        }
+
+        function rotateToIndex(idx) {
+            selectedIndex = idx;
+            currentRotation = (360 - (idx * 30)) % 360;
+            document.getElementById('rotatable-disc').setAttribute('transform', `rotate(${currentRotation})`);
+            updateAll();
+        }
+
+        function stepWheel(direction) {
+            let nextIndex = (selectedIndex + direction) % 12;
+            if (nextIndex < 0) nextIndex += 12;
+            rotateToIndex(nextIndex);
+        }
+
+        function setHarmony(type) {
+            activeHarmony = type;
+            document.querySelectorAll('.tabs .tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            updateHarmonies();
+        }
+
+        function applyWheelAtmosphere() {
+            const sat = document.getElementById('wheel-sat').value / 100;
+            const lum = document.getElementById('wheel-lum').value / 100;
+            document.getElementById('val-sat').textContent = `${Math.round(sat * 100)}%`;
+            document.getElementById('val-lum').textContent = `${Math.round(lum * 100)}%`;
+
+            for (let i = 0; i < 12; i++) {
+                const base = RYB_BASE[i].baseRgb;
+                const gray = base[0] * 0.299 + base[1] * 0.587 + base[2] * 0.114;
+                let r = gray + (base[0] - gray) * sat;
+                let g = gray + (base[1] - gray) * sat;
+                let b = gray + (base[2] - gray) * sat;
+
+                r = Math.max(0, Math.min(255, Math.round(r * lum)));
+                g = Math.max(0, Math.min(255, Math.round(g * lum)));
+                b = Math.max(0, Math.min(255, Math.round(b * lum)));
+
+                RYB_COLORS[i].rgb = [r, g, b];
+                RYB_COLORS[i].hex = rgbToHex(r, g, b);
+
+                const sector = document.getElementById(`wheel-sector-${i}`);
+                if (sector) sector.setAttribute('fill', RYB_COLORS[i].hex);
+            }
+
+            updateAll();
+        }
+
+        function resetAtmosphere() {
+            document.getElementById('wheel-sat').value = 100;
+            document.getElementById('wheel-lum').value = 100;
+            applyWheelAtmosphere();
+        }
+
+        function updateAll() {
+            const current = RYB_COLORS[selectedIndex];
+            document.getElementById('current-angle').textContent = `${selectedIndex * 30}°`;
+            document.getElementById('main-swatch').style.backgroundColor = current.hex;
+            document.getElementById('color-name').textContent = current.name;
+            document.getElementById('color-cat').textContent = `Couleur ${current.type}`;
+            document.getElementById('color-hex-main').textContent = current.hex;
+
+            const basePots = RYB_BASE[selectedIndex].pots;
+            document.getElementById('pot-citadel').textContent = basePots.citadel;
+            document.getElementById('pot-vallejo').textContent = basePots.vallejo;
+            document.getElementById('pot-ap').textContent = basePots.armyPainter;
+
+            updateShades(current);
+            updateHarmonies();
+            updateMixUI();
+            updateOSL();
+        }
+
+        function updateShades(color) {
+            const container = document.getElementById('shades-container');
+            container.innerHTML = '';
+            const variations = [
+                { name: "Pur", color: color.rgb },
+                { name: "+ Blanc", color: blendRGB(color.rgb, [255, 255, 255], 0.4) },
+                { name: "+ Gris", color: blendRGB(color.rgb, [128, 128, 128], 0.35) },
+                { name: "+ Noir", color: blendRGB(color.rgb, [20, 20, 20], 0.45) }
+            ];
+
+            variations.forEach(v => {
+                const hex = rgbToHex(v.color[0], v.color[1], v.color[2]);
+                const box = document.createElement('div');
+                box.className = 'color-box';
+                box.innerHTML = `
+                    <div class="swatch" style="background-color: ${hex}" title="Copier ${hex}" onclick="copyHex('${hex}')"></div>
+                    <span class="color-label">${v.name}</span>
+                    <span class="color-hex">${hex}</span>
+                `;
+                container.appendChild(box);
+            });
+        }
+
+        function updateHarmonies() {
+            const container = document.getElementById('harmony-container');
+            container.innerHTML = '';
+            let indices = [];
+
+            switch(activeHarmony) {
+                case 'comp':
+                    indices = [selectedIndex, (selectedIndex + 6) % 12];
+                    break;
+                case 'split':
+                    indices = [selectedIndex, (selectedIndex + 5) % 12, (selectedIndex + 7) % 12];
+                    break;
+                case 'triad':
+                    indices = [selectedIndex, (selectedIndex + 4) % 12, (selectedIndex + 8) % 12];
+                    break;
+                case 'tetrad':
+                    indices = [selectedIndex, (selectedIndex + 3) % 12, (selectedIndex + 6) % 12, (selectedIndex + 9) % 12];
+                    break;
+                case 'analog':
+                    indices = [(selectedIndex + 11) % 12, selectedIndex, (selectedIndex + 1) % 12];
+                    break;
+            }
+
+            indices.forEach(idx => {
+                const c = RYB_COLORS[idx];
+                const box = document.createElement('div');
+                box.className = 'color-box';
+                box.innerHTML = `
+                    <div class="swatch" style="background-color: ${c.hex}" title="Copier ${c.hex}" onclick="copyHex('${c.hex}')"></div>
+                    <span class="color-label">${c.name}</span>
+                    <span class="color-hex">${c.hex}</span>
+                `;
+                container.appendChild(box);
+            });
+        }
+
+        function updateMixUI() {
+            const c1 = RYB_COLORS[selectedIndex];
+            const c2 = RYB_COLORS[(selectedIndex + 6) % 12];
+            document.getElementById('mix-c1').style.backgroundColor = c1.hex;
+            document.getElementById('mix-label1').textContent = c1.name;
+            document.getElementById('mix-c2').style.backgroundColor = c2.hex;
+            document.getElementById('mix-label2').textContent = c2.name;
+            updateMix();
+        }
+
+        function updateMix() {
+            const ratio = document.getElementById('mix-ratio').value / 100;
+            document.getElementById('ratio-label-1').textContent = `${Math.round((1 - ratio) * 100)}% C1`;
+            document.getElementById('ratio-label-2').textContent = `${Math.round(ratio * 100)}% C2`;
+
+            const c1 = RYB_COLORS[selectedIndex].rgb;
+            const c2 = RYB_COLORS[(selectedIndex + 6) % 12].rgb;
+
+            const mixed = subtractiveMix(c1, c2, ratio);
+            const hex = rgbToHex(mixed[0], mixed[1], mixed[2]);
+
+            const resultSwatch = document.getElementById('mix-result');
+            resultSwatch.style.backgroundColor = hex;
+            resultSwatch.onclick = () => copyHex(hex);
+            document.getElementById('mix-hex').textContent = hex;
+
+            if (Math.abs(ratio - 0.5) < 0.15) {
+                document.getElementById('mix-desc').textContent = "Gris chromatique neutre";
+            } else if (ratio < 0.5) {
+                document.getElementById('mix-desc').textContent = `Nuance rompue à dominante ${RYB_COLORS[selectedIndex].name}`;
+            } else {
+                document.getElementById('mix-desc').textContent = `Nuance rompue à dominante ${RYB_COLORS[(selectedIndex + 6) % 12].name}`;
+            }
+        }
+
+        function blendRGB(c1, c2, factor) {
+            return [
+                Math.round(c1[0] * (1 - factor) + c2[0] * factor),
+                Math.round(c1[1] * (1 - factor) + c2[1] * factor),
+                Math.round(c1[2] * (1 - factor) + c2[2] * factor)
+            ];
+        }
+
+        function subtractiveMix(rgb1, rgb2, t) {
+            const c1 = [255 - rgb1[0], 255 - rgb1[1], 255 - rgb1[2]];
+            const c2 = [255 - rgb2[0], 255 - rgb2[1], 255 - rgb2[2]];
+            const cMix = [
+                c1[0] * (1 - t) + c2[0] * t,
+                c1[1] * (1 - t) + c2[1] * t,
+                c1[2] * (1 - t) + c2[2] * t
+            ];
+            const darkFactor = 0.85;
+            return [
+                Math.max(0, Math.min(255, Math.round((255 - cMix[0]) * darkFactor))),
+                Math.max(0, Math.min(255, Math.round((255 - cMix[1]) * darkFactor))),
+                Math.max(0, Math.min(255, Math.round((255 - cMix[2]) * darkFactor)))
+            ];
+        }
+
+        function rgbToHex(r, g, b) {
+            return "#" + [r, g, b].map(x => x.toString(16).padStart(2, '0')).join('').toUpperCase();
+        }
+
+        function hexToRgb(hex) {
+            const clean = hex.replace('#', '');
+            return {
+                r: parseInt(clean.substring(0, 2), 16),
+                g: parseInt(clean.substring(2, 4), 16),
+                b: parseInt(clean.substring(4, 6), 16)
+            };
+        }
+
+        function copyHex(hex) {
+            navigator.clipboard.writeText(hex);
+            const badge = document.getElementById('current-angle');
+            const oldText = badge.textContent;
+            badge.textContent = "Copié !";
+            badge.style.background = "#10b981";
+            setTimeout(() => {
+                badge.textContent = oldText;
+                badge.style.background = "#2d3748";
+            }, 900);
+        }
+
+        /* Module OSL */
+        function selectLight(btn, hex) {
+            document.querySelectorAll('.btn-light').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentLight = hexToRgb(hex);
+            updateOSL();
+        }
+
+        function updateOSL() {
+            const surface = RYB_COLORS[selectedIndex].rgb;
+            const resR = Math.round((surface[0] / 255) * (currentLight.r / 255) * 255);
+            const resG = Math.round((surface[1] / 255) * (currentLight.g / 255) * 255);
+            const resB = Math.round((surface[2] / 255) * (currentLight.b / 255) * 255);
+            const resHex = rgbToHex(resR, resG, resB);
+
+            document.getElementById('osl-pigment-swatch').style.backgroundColor = RYB_COLORS[selectedIndex].hex;
+            document.getElementById('osl-light-swatch').style.backgroundColor = rgbToHex(currentLight.r, currentLight.g, currentLight.b);
+            document.getElementById('osl-result-swatch').style.backgroundColor = resHex;
+
+            const adviceBox = document.getElementById('osl-advice');
+            const lum = (resR * 0.299 + resG * 0.587 + resB * 0.114);
+            const baseLum = (surface[0] * 0.299 + surface[1] * 0.587 + surface[2] * 0.114);
+
+            if (lum < 35 && baseLum > 60) {
+                adviceBox.innerHTML = `Absorption quasi-totale : ce pigment absorbe cette lumière. Peignez la zone vers une ombre sombre / brun désaturé (${resHex}).`;
+            } else if (lum >= baseLum * 0.75) {
+                adviceBox.innerHTML = `Forte réflexion : rehauts nets en ${resHex} allant vers le blanc pur sur l'arête.`;
+            } else {
+                adviceBox.innerHTML = `Filtrage partiel : appliquez un glacis intermédiaire (${resHex}) entre l'ombre et la lumière incidente.`;
+            }
+
+            renderSphere(surface, currentLight, [resR, resG, resB]);
+        }
+
+        function renderSphere(surface, light, result) {
+            const canvas = document.getElementById('osl-canvas');
+            const ctx = canvas.getContext('2d');
+            const cx = canvas.width / 2;
+            const cy = canvas.height / 2;
+            const r = canvas.width / 2 - 4;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const grad = ctx.createRadialGradient(cx - r * 0.35, cy - r * 0.35, r * 0.05, cx, cy, r);
+            const specR = Math.min(255, Math.round(result[0] * 0.5 + 255 * 0.5));
+            const specG = Math.min(255, Math.round(result[1] * 0.5 + 255 * 0.5));
+            const specB = Math.min(255, Math.round(result[2] * 0.5 + 255 * 0.5));
+
+            grad.addColorStop(0, `rgb(${specR}, ${specG}, ${specB})`);
+            grad.addColorStop(0.3, `rgb(${result[0]}, ${result[1]}, ${result[2]})`);
+            grad.addColorStop(0.7, `rgb(${surface[0] * 0.6}, ${surface[1] * 0.6}, ${surface[2] * 0.6})`);
+            grad.addColorStop(1, '#05070a');
+
+            ctx.beginPath();
+            ctx.arc(cx, cy, r, 0, Math.PI * 2);
+            ctx.fillStyle = grad;
+            ctx.fill();
+        }
+
+        /* Analyse Photo, Zoom Molette & Loupe Dynamique */
+        let refImage = new Image();
+        let canvasZoom = 1;
+
+        function initDropZone() {
+            const dropZone = document.getElementById('drop-zone');
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropZone.addEventListener(eventName, (e) => {
+                    e.preventDefault();
+                    dropZone.style.borderColor = "var(--accent-color)";
+                });
+            });
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, (e) => {
+                    e.preventDefault();
+                    dropZone.style.borderColor = "var(--border-color)";
+                });
+            });
+            dropZone.addEventListener('drop', (e) => {
+                if (e.dataTransfer.files.length) {
+                    handleFile(e.dataTransfer.files[0]);
+                }
+            });
+        }
+
+        function handleFile(file) {
+            if (!file || !file.type.startsWith('image/')) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                refImage = new Image();
+                refImage.onload = () => {
+                    document.getElementById('drop-zone').style.display = 'none';
+                    document.getElementById('preview-container').style.display = 'flex';
+                    canvasZoom = 1;
+                    updateZoomDisplay();
+                    renderRefCanvas();
+                };
+                refImage.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function renderRefCanvas() {
+            const canvas = document.getElementById('ref-canvas');
+            const ctx = canvas.getContext('2d');
+            const maxW = 340;
+            const scale = Math.min(1, maxW / refImage.width);
+            canvas.width = refImage.width * scale;
+            canvas.height = refImage.height * scale;
+
+            ctx.filter = isGrayscale ? 'grayscale(100%)' : 'none';
+            ctx.drawImage(refImage, 0, 0, canvas.width, canvas.height);
+        }
+
+        function initCanvasZoomAndLens() {
+            const wrapper = document.getElementById('viewport-wrapper');
+            const canvas = document.getElementById('ref-canvas');
+            const lens = document.getElementById('zoom-lens');
+            const lensCanvas = document.getElementById('lens-canvas');
+            const lensCtx = lensCanvas.getContext('2d');
+
+            wrapper.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                if (e.deltaY < 0) {
+                    canvasZoom = Math.min(4, canvasZoom + 0.25);
+                } else {
+                    canvasZoom = Math.max(0.75, canvasZoom - 0.25);
+                }
+                canvas.style.transform = `scale(${canvasZoom})`;
+                updateZoomDisplay();
+            });
+
+            canvas.addEventListener('mousemove', (e) => {
+                lens.style.display = 'block';
+                const rect = canvas.getBoundingClientRect();
+                const wrapRect = wrapper.getBoundingClientRect();
+
+                const mouseX = e.clientX - wrapRect.left;
+                const mouseY = e.clientY - wrapRect.top;
+                lens.style.left = `${mouseX - 50}px`;
+                lens.style.top = `${mouseY - 50}px`;
+
+                const normX = (e.clientX - rect.left) / rect.width;
+                const normY = (e.clientY - rect.top) / rect.height;
+                const srcX = Math.floor(normX * canvas.width);
+                const srcY = Math.floor(normY * canvas.height);
+
+                lensCtx.imageSmoothingEnabled = false;
+                lensCtx.clearRect(0, 0, 100, 100);
+                lensCtx.drawImage(
+                    canvas, 
+                    srcX - 10, srcY - 10, 20, 20, 
+                    0, 0, 100, 100
+                );
+            });
+
+            canvas.addEventListener('mouseleave', () => {
+                lens.style.display = 'none';
+            });
+
+            canvas.addEventListener('click', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const normX = (e.clientX - rect.left) / rect.width;
+                const normY = (e.clientY - rect.top) / rect.height;
+                const x = Math.floor(normX * canvas.width);
+                const y = Math.floor(normY * canvas.height);
+
+                const ctx = canvas.getContext('2d');
+                const pixel = ctx.getImageData(x, y, 1, 1).data;
+
+                const hex = rgbToHex(pixel[0], pixel[1], pixel[2]);
+                const lum = Math.round((pixel[0] * 0.299 + pixel[1] * 0.587 + pixel[2] * 0.114) / 255 * 100);
+
+                sampledColor = { r: pixel[0], g: pixel[1], b: pixel[2], hex: hex, value: lum };
+
+                document.getElementById('ref-sample-swatch').style.backgroundColor = hex;
+                document.getElementById('ref-sample-name').textContent = hex;
+                document.getElementById('ref-sample-value').textContent = `Valeur : ${lum}%`;
+                document.getElementById('meter-fill').style.width = `${lum}%`;
+
+                let stage = "Teinte de base";
+                if (lum < 25) stage = "Ombre profonde / Creux";
+                else if (lum < 50) stage = "Demi-teinte d'ombre";
+                else if (lum > 75) stage = "Lumière vive / Rehaut";
+                document.getElementById('ref-sample-stage').textContent = `Zone : ${stage}`;
+
+                const closest = findClosestColor(pixel[0], pixel[1], pixel[2]);
+                document.getElementById('ref-sample-pot').textContent = `Pot conseillé : ${closest.pots.vallejo} / ${closest.pots.citadel}`;
+            });
+        }
+
+        function updateZoomDisplay() {
+            document.getElementById('zoom-badge').textContent = `Zoom x${canvasZoom.toFixed(1)}`;
+        }
+
+        function resetImageZoom() {
+            canvasZoom = 1;
+            document.getElementById('ref-canvas').style.transform = `scale(1)`;
+            updateZoomDisplay();
+        }
+
+        function findClosestColor(r, g, b) {
+            let closest = RYB_BASE[0];
+            let minDist = Infinity;
+            RYB_BASE.forEach(c => {
+                const dr = c.baseRgb[0] - r;
+                const dg = c.baseRgb[1] - g;
+                const db = c.baseRgb[2] - b;
+                const dist = dr*dr + dg*dg + db*db;
+                if (dist < minDist) {
+                    minDist = dist;
+                    closest = c;
+                }
+            });
+            return closest;
+        }
+
+        function toggleGrayscale() {
+            isGrayscale = !isGrayscale;
+            renderRefCanvas();
+        }
+
+        function alignWheelToSample() {
+            let closestIdx = 0;
+            let minDist = Infinity;
+
+            RYB_COLORS.forEach((c, idx) => {
+                const dr = c.rgb[0] - sampledColor.r;
+                const dg = c.rgb[1] - sampledColor.g;
+                const db = c.rgb[2] - sampledColor.b;
+                const dist = dr*dr + dg*dg + db*db;
+                if (dist < minDist) {
+                    minDist = dist;
+                    closestIdx = idx;
+                }
+            });
+
+            rotateToIndex(closestIdx);
+        }
+
+        window.onload = initWheel;
+    </script>
+</body>
+</html>
