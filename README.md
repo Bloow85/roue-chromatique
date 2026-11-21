@@ -1,69 +1,70 @@
-# Roue Chromatique d'Atelier (RYB) v3.4
+# Roue Chromatique d'Atelier (RYB) v4.0
 
 [![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-Soutenir-orange?style=for-the-badge&logo=buy-me-a-coffee&logoColor=white)](https://buymeacoffee.com/Bloow85)
-[![Statut](https://img.shields.io/badge/Version-3.4-blue.svg)](https://bloow85.github.io/roue-chromatique/)
+[![Statut](https://img.shields.io/badge/Version-4.0-blue.svg)](https://bloow85.github.io/roue-chromatique/)
 
-Outil interactif reproduisant la roue chromatique double-disque traditionnelle d'atelier, concu sur mesure pour les peintres de figurines, modelistes et createurs visuels.
+Outil interactif reproduisant la roue chromatique double-disque traditionnelle d'atelier, conçu pour les peintres de figurines, modélistes et créateurs visuels.
 
-Contrairement aux ecrans qui fonctionnent par addition de lumiere (RVB), la peinture physique fonctionne par synthese soustractive a partir du cercle traditionnel RYB (Red - Yellow - Blue / Rouge - Jaune - Bleu). Cet outil simule le comportement optique des pigments reels directement dans votre navigateur.
+Contrairement aux écrans qui fonctionnent par addition de lumière (RVB), la peinture physique suit une logique de synthèse soustractive inspirée du cercle RYB (*Red - Yellow - Blue* / Rouge - Jaune - Bleu). L'application aide à choisir des harmonies, doser les mélanges, anticiper l'OSL et analyser des photos de référence directement dans le navigateur.
 
 ---
 
-## Fonctionnalites Principales (v3.4)
+## Nouveautés & Fonctionnalités Clés (v4.0)
 
-### 1. Disque Rotatif & Equivalences Pots de Peinture
-- Palette physique 12 secteurs : Navigation fluide avec disque rotatif interactif ou boutons pas-a-pas.
-- Correspondances directes pour figurinistes : Pour chaque teinte selectionnee, l'application donne immediatement les references exactes des pots equivalents du marche :
-  - Citadel (ex: Mephiston Red, Macragge Blue, Moot Green)
-  - Vallejo / Prince August (gammes Model Color et Game Color)
-  - The Army Painter (gamme Warpaints)
+### 1. Disque Rotatif & Base de Pots Dynamique (JSON)
+- **Palette rotative 12 secteurs :** Tournez le disque central au glisser ou cliquez directement sur un quartier / les boutons pas-à-pas.
+- **Correspondances multi-marques (61 pots intégrés par défaut) :** Recherche des teintes proches selon la distance perceptuelle Redmean parmi **Citadel**, **Vallejo / Prince August**, **The Army Painter** et **AK Interactive**.
+- **Base personnalisable :** Importez un fichier `peintures_db.json` local, synchronisez une URL JSON ou exportez votre catalogue actuel.
 
 ### 2. Harmonies Visuelles & Neutralisation
-- Calcul automatique des accords : Complementaire (180 degres), Oppose divise (Split-Complementary), Triade (120 degres), Tetrade (90 degres) et Analogue (30 degres).
-- 4 Declinaisons d'Atelier : Teinte pure, eclaircie (+ blanc), rompue (+ gris) et assombrie (+ noir).
-- Simulateur de neutralisation : Dosage precis de melange soustractif pour creer des ombres naturelles et des gris chromatiques sans salir au noir pur.
-- Reglage d'ambiance d'atelier : Sliders de saturation et de luminosite pour adapter toute la roue aux ambiances sombres (Grimdark) ou pastel.
+- **Accords automatiques :** Complémentaire (180°), Opposé divisé (*Split*), Triade (120°), Tétrade (90°) et Analogue (30°).
+- **4 Déclinaisons :** Teinte pure, éclaircie (+ blanc), rompue (+ gris) et assombrie (+ noir).
+- **Neutralisation soustractive :** Mélangez une teinte avec son opposée pour assombrir et désaturer sans passer par un noir pur.
+- **Ambiance globale :** Ajustez la saturation et la luminosité de la roue pour simuler des rendus sombres (*Grimdark*) ou plus clairs.
 
-### 3. Simulation Optique & OSL (Object Source Lighting)
-- Moteur optique physique : Simulation du comportement d'un faisceau lumineux colore frappant un pigment de base (absorption et reflexion).
-- Presets de lumieres d'ambiance : Soleil blanc, Flamme orange, Plasma vert, Cyan magique, Alarme rouge.
-- Rendu sur sphere 3D : Visualisation en direct du point focal, de la demi-teinte et du reflet speculaire avec conseils d'application (glacis, rehauts, ombres).
+### 3. Simulation Optique & OSL (*Object Source Lighting*)
+- **Réaction pigment / lumière :** Aperçu sur sphère et pastilles de rendu selon la source lumineuse choisie (*Soleil*, *Flamme*, *Plasma Vert*, *Cyan Magic*, *Alarme*).
+- **Aide à l'application :** Repères sur les zones d'ombre, de demi-teinte, de glacis et de rehauts.
 
-### 4. Analyseur de Reference & Loupe Haute Precision
-- Import d'image de reference : Glissez-deposez n'importe quelle photo de figurine ou concept art.
-- Loupe dynamique au pixel : Zoom au survol avec reticule de visee pour isoler les details minuscules.
-- Zoom molette et mode N&B : Analyse instantanee des contrastes de valeurs sans distraction de couleur.
-- Pipette intelligente & calage : Analyse de la valeur lumineuse de la zone ciblee (ombre, demi-teinte, lumiere) avec proposition du pot de peinture le plus proche et bouton pour recaler immediatement la roue sur cette couleur.
+### 4. Photo de Référence, Zoom x4, Déplacement & Loupe 1 px
+- **Zoom ciblé jusqu'à x4 :** Molette de souris centrée sous le pointeur (et pincement à deux doigts sur écran tactile).
+- **Déplacement libre (*Pan & Drag*) :** Glissez sur l'image pour parcourir les zones agrandies sans perdre le cadrage ; un clic court sans glissement prélève la couleur à la pipette.
+- **Loupe à réticule circulaire :** Agrandissement au survol avec viseur circulaire et repère central de 1 pixel pour cibler les petits détails.
+- **Outils rapides :** Passage en **N&B** pour juger les valeurs, **Reset Zoom**, **Caler roue** sur la couleur sondée et **Changer** de photo.
 
----
-
-## Guide Theorique pour Debutants
-
-### 1. La Hierarchie des Couleurs
-- Primaires (Rouge, Jaune, Bleu) : Couleurs fondamentales pures, impossibles a obtenir par melange.
-- Secondaires (Orange, Vert, Violet) : Obtenues en melangeant deux primaires a parts egales.
-- Tertiaires (Rouge-Orange, Jaune-Vert, etc.) : Melange d'une primaire avec sa secondaire voisine.
-
-### 2. Les Regles d'Harmonies
-- Complementaire (180 degres) : Contraste maximal. Ideal pour faire ressortir un point focal (yeux, gemmes, armes energetiques).
-- Complementaire adjacente : Contraste marque mais plus doux et nuance pour l'oeil.
-- Triade (120 degres) : Trois teintes equidistantes pour une composition riche et equilibree.
-- Tetrade (90 degres) : Deux paires complementaires, a manipuler en gardant une couleur tres dominante.
-- Analogue (30 degres) : Teintes voisines pour un degrade naturel et une ambiance feutree.
+### 5. Assistant IA & Fiche de Recette (API Gemini)
+- **Lecture de l'image :** Extraction des teintes dominantes (cliquables pour caler la roue) et analyse de la lumière.
+- **Recette structurée en 4 phases :** *Base*, *Ombrage/Lavis*, *Glacis* et *Rehauts* selon le style (*Tabletop*, *Grimdark*, *Exposition*, *NMM*) et une précision optionnelle, en s'appuyant sur les pots de la base active.
+- **Copie en un clic :** Récupération rapide de la fiche complète dans le presse-papiers.
 
 ---
 
-## Utilisation
-- En ligne : Utilisez directement l'application hebergee sur GitHub Pages : https://bloow85.github.io/roue-chromatique/
-- Copie rapide : Cliquez sur n'importe quel echantillon de couleur pour copier son code hexadecimal dans le presse-papiers.
-- 100 % autonome : Fonctionne sur PC, tablette et smartphone, sans installation et sans connexion internet requise une fois la page chargee.
+## Démarrage Rapide & Configuration
+
+### 1. Ouvrir l'outil
+Accédez directement à [https://bloow85.github.io/roue-chromatique/](https://bloow85.github.io/roue-chromatique/) dans votre navigateur de bureau[cite: 1]. Les fonctions chromatiques, la roue, l'OSL, la loupe et la base intégrée fonctionnent sans configuration préalable.
+
+### 2. Configurer l'analyse IA Gemini (optionnel)
+La clé et le modèle sont enregistrés localement dans votre navigateur (`localStorage`) :
+1. Cliquez sur **`API Gemini : À configurer`** en haut de la page.
+2. Saisissez votre clé API Google AI Studio et choisissez le modèle souhaité (`gemini-3.8-flash` par défaut).
+3. Validez avec **Enregistrer**.
+
+### 3. Charger ou personnaliser la base de pots JSON (optionnel)
+1. Cliquez sur **`Base pots`** en haut de la page (ou sur `Gérer base`).
+2. Importez un fichier `peintures_db.json` ou saisissez l'URL d'un JSON compatible, puis cliquez sur **Sync**.
+3. Vous pouvez aussi cliquer sur **Exporter JSON** pour sauvegarder ou éditer la structure des pots (`brand`, `range`, `name`, `ref`, `hex`).
 
 ---
 
-## Propriete Intellectuelle & Droits d'Auteur
+## Rappels Théoriques Rapides
+- **Primaires / Secondaires / Tertiaires :** Les 3 primaires RYB (Rouge, Jaune, Bleu) génèrent les secondaires (Orange, Vert, Violet), puis les tertiaires intermédiaires.
+- **Contraste & équilibre :** Les harmonies complémentaires dynamisent un point focal, tandis que les harmonies analogues favorisent des transitions plus douces.
 
-(c) 2026 Marc BRONKAERT (bloow85). Tous droits reserves.
+---
 
-Cette application, son code source, son interface graphique et ses algorithmes sont la propriete exclusive de l'auteur.  
-- Usage autorise : Utilisation personnelle, pedagogique et d'atelier non-commerciale.  
-- Restrictions : Toute reproduction, modification non autorisee, redistribution ou exploitation commerciale sans accord ecrit prealable est formellement interdite.
+## Propriété Intellectuelle & Droits d'Auteur
+
+(c) 2026 Marc BRONKAERT (bloow85). Tous droits réservés.
+
+Usage personnel, pédagogique et d'atelier non-commercial autorisé. Toute reproduction, modification non autorisée, redistribution ou exploitation commerciale sans accord écrit préalable de l'auteur est interdite.
