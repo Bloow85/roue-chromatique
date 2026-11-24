@@ -302,7 +302,7 @@
         .meter-bar { height: 8px; background: #334155; border-radius: 4px; overflow: hidden; position: relative; }
         .meter-fill { height: 100%; background: #38bdf8; width: 50%; transition: width 0.15s; }
 
-        /* IA Gemini */
+        /* Générateur de Fiche Recette */
         .ai-controls { background: var(--card-inner); border: 1px solid #312e81; border-radius: 8px; padding: 10px; display: flex; flex-direction: column; gap: 8px; }
         .ai-input-row { display: flex; gap: 6px; }
         .atelier-input, .atelier-select {
@@ -582,7 +582,7 @@
 
     <header>
         <h1>Roue Chromatique d'Atelier (RYB) <span class="badge" style="vertical-align:middle;">v4.3</span></h1>
-        <p class="subtitle">Palette physique rotative, optique OSL, analyseur IA Gemini, équivalences multi-marques &amp; dilution</p>
+        <p class="subtitle">Palette physique rotative, optique OSL, analyse photo &amp; recettes, équivalences multi-marques &amp; dilution</p>
         <div class="atelier-toolbar">
             <nav class="main-nav-tabs" aria-label="Navigation des modules">
                 <button class="main-tab-btn active" id="main-tab-wheel" onclick="switchMainView('wheel')">🎨 Roue Chromatique</button>
@@ -602,7 +602,7 @@
             </nav>
             <button class="status-btn" onclick="openModal('gemini-modal')">
                 <span class="status-dot" id="gemini-status-dot"></span>
-                <span id="gemini-status-label">API Gemini : À configurer</span>
+                <span id="gemini-status-label">Clé API : À configurer</span>
             </button>
             <button class="status-btn" onclick="openModal('db-modal')">
                 <span class="status-dot ok" id="db-status-dot"></span>
@@ -794,12 +794,12 @@
                         <strong>Inspecter une figurine en photo :</strong><br>
                         • <strong>Zoom &amp; Déplacement :</strong> molette / pincement jusqu'à x4 sur la zone visée, cliquer-glisser pour se déplacer.<br>
                         • <strong>Pipette &amp; N&amp;B :</strong> touchez un pixel pour obtenir sa luminosité (ombre/rehaut) et le pot équivalent ; utilisez <strong>N&amp;B</strong> pour vérifier vos contrastes.<br>
-                        • <strong>Gemini :</strong> génère automatiquement une recette en 4 étapes depuis la photo.
+                        • <strong>Fiche Recette :</strong> génère automatiquement une recette en 4 étapes depuis la photo.
                     </div>
                     <div class="dropzone" id="drop-zone" onclick="document.getElementById('file-input').click()">
                         <span style="font-size:1.5rem;">📷</span>
                         <div style="font-size:0.84rem; font-weight:bold; margin-top:4px;">Déposez une photo de figurine ou touchez ici</div>
-                        <div style="font-size:0.72rem; color:var(--text-muted); margin-top:2px;">Zoom ciblé x4, déplacement tactile/souris, loupe 1px &amp; recette IA</div>
+                        <div style="font-size:0.72rem; color:var(--text-muted); margin-top:2px;">Zoom ciblé x4, déplacement tactile/souris, loupe 1px &amp; fiche recette</div>
                         <input type="file" id="file-input" accept="image/*" style="display:none;" onchange="handleFile(this.files[0])">
                     </div>
                     <div class="preview-container" id="preview-container">
@@ -830,8 +830,8 @@
                         </div>
                         <div class="ai-controls">
                             <div style="display:flex; justify-content:space-between; align-items:center;">
-                                <span style="font-size:0.78rem; font-weight:bold; color:#c4b5fd;">✨ Analyse IA &amp; Recette d'atelier</span>
-                                <span class="badge" style="background:#312e81; color:#e0e7ff;">Gemini</span>
+                                <span style="font-size:0.78rem; font-weight:bold; color:#c4b5fd;">✨ Générateur de Fiche Recette</span>
+                                <span class="badge" style="background:#312e81; color:#e0e7ff;">Auto</span>
                             </div>
                             <div class="ai-input-row">
                                 <select id="ai-style-select" class="atelier-select" style="flex:1;">
@@ -1069,11 +1069,11 @@
             </div>
 
             <div class="guide-block" style="border-left-color:#38bdf8;">
-                <h4>4. Photo Référence, Loupe 1 px &amp; Analyse IA Gemini</h4>
+                <h4>4. Photo Référence, Loupe 1 px &amp; Fiche de Recette</h4>
                 <ul>
                     <li>Chargez la photo d'une figurine ou d'une illustration. Zoomez à la molette ou au pincement à 2 doigts (jusqu'à <code>x4</code>) et glissez pour explorer chaque recoin.</li>
                     <li>Survolez avec le viseur circulaire (point central de <strong>1 pixel</strong>) et cliquez/touchez pour mesurer la luminosité (ombre / demi-teinte / rehaut) et trouver le pot le plus proche. Activez <strong>N&amp;B</strong> pour contrôler vos contrastes.</li>
-                    <li>Configurez votre clé <strong>API Gemini</strong> (gratuite via Google AI Studio) pour générer automatiquement une <strong>Fiche de Recette en 4 étapes</strong> depuis votre photo.</li>
+                    <li>Configurez votre <strong>Clé API</strong> en haut de l'écran pour générer automatiquement une <strong>Fiche de Recette en 4 étapes</strong> depuis votre photo.</li>
                 </ul>
             </div>
 
@@ -1091,20 +1091,20 @@
         </div>
     </div>
 
-    <!-- Modale Configuration API Gemini -->
+    <!-- Modale Configuration Clé API -->
     <div class="modal-backdrop" id="gemini-modal">
         <div class="modal-box">
             <div class="modal-header">
-                <h3>⚙️ Configuration API Gemini</h3>
+                <h3>⚙️ Configuration Clé API</h3>
                 <button class="modal-close" onclick="closeModal('gemini-modal')">✕</button>
             </div>
             <div class="modal-section">
-                <label class="modal-label" for="gemini-key-input">Clé API Google AI Studio (Gemini)</label>
+                <label class="modal-label" for="gemini-key-input">Clé API pour l'analyse photo</label>
                 <input type="password" id="gemini-key-input" class="atelier-input" placeholder="AIzaSy...">
-                <div class="modal-help">Stockée uniquement en local dans votre navigateur (<code>localStorage</code>). Aucune donnée n'est envoyée ailleurs que vers l'API Google Gemini.</div>
+                <div class="modal-help">Stockée uniquement en local dans votre navigateur (<code>localStorage</code>). Aucune donnée n'est envoyée vers un serveur tiers hors du service d'analyse photo.</div>
             </div>
             <div class="modal-section">
-                <label class="modal-label" for="gemini-model-input">Modèle Gemini multimodal</label>
+                <label class="modal-label" for="gemini-model-input">Modèle d'analyse optique</label>
                 <input list="gemini-models-list" id="gemini-model-input" class="atelier-input" value="gemini-3.8-flash">
                 <datalist id="gemini-models-list">
                     <option value="gemini-3.8-flash">Recommandé (rapide &amp; précis en vision)</option>
@@ -1996,12 +1996,12 @@
             const key = localStorage.getItem(STORAGE_KEYS.GEMINI_KEY) || "", model = localStorage.getItem(STORAGE_KEYS.GEMINI_MODEL) || "gemini-3.8-flash";
             document.getElementById('gemini-key-input').value = key; document.getElementById('gemini-model-input').value = model;
             const dot = document.getElementById('gemini-status-dot'), label = document.getElementById('gemini-status-label');
-            if (key.length > 10) { dot.classList.add('ok'); label.textContent = `API Gemini : Prête (${model})`; }
-            else { dot.classList.remove('ok'); label.textContent = "API Gemini : À configurer"; }
+            if (key.length > 10) { dot.classList.add('ok'); label.textContent = "Clé API : Prête"; }
+            else { dot.classList.remove('ok'); label.textContent = "Clé API : À configurer"; }
         }
         function saveGeminiSettings() {
             const key = document.getElementById('gemini-key-input').value.trim(), model = document.getElementById('gemini-model-input').value.trim() || "gemini-3.8-flash";
-            if (!key) return alert("Veuillez saisir une clé API Gemini.");
+            if (!key) return alert("Veuillez saisir une clé API valide.");
             localStorage.setItem(STORAGE_KEYS.GEMINI_KEY, key); localStorage.setItem(STORAGE_KEYS.GEMINI_MODEL, model);
             loadGeminiStatusUI(); closeModal('gemini-modal');
         }
@@ -2029,7 +2029,7 @@
             if (!refImage || !refImage.src) return alert("Chargez d'abord une photo.");
             const btn = document.getElementById('btn-analyze-ai'), panel = document.getElementById('ai-recipe-panel');
             btn.disabled = true; btn.innerHTML = "<span>⏳ Analyse optique en cours...</span>"; panel.style.display = 'block';
-            panel.innerHTML = `<div style="font-size:0.76rem; color:#c4b5fd; text-align:center; padding:8px;">Lecture des volumes, ombres et lumières par Gemini...</div>`;
+            panel.innerHTML = `<div style="font-size:0.76rem; color:#c4b5fd; text-align:center; padding:8px;">Lecture des volumes, ombres et lumières en cours...</div>`;
             try {
                 const { base64, samplePoints } = prepareImagePayloadFromRef(), paintPool = buildRelevantPaintContext(samplePoints);
                 const styleChoice = document.getElementById('ai-style-select').value, userFocus = document.getElementById('ai-focus-input').value.trim();
@@ -2051,7 +2051,7 @@
                 const json = await response.json();
                 if (!response.ok) throw new Error(json.error?.message || `Erreur HTTP ${response.status}`);
                 const rawText = json.candidates?.[0]?.content?.parts?.[0]?.text;
-                if (!rawText) throw new Error("Réponse vide de Gemini.");
+                if (!rawText) throw new Error("Réponse vide du service d'analyse.");
                 lastAiRecipe = JSON.parse(rawText); renderAiRecipe(lastAiRecipe);
             } catch (err) {
                 panel.innerHTML = `<div class="recipe-error"><strong>Échec :</strong> ${escapeHtml(err.message)}</div>`;
@@ -2456,16 +2456,3 @@
     </script>
 </body>
 </html>
-
-Nouveautés v4.3 intégrées :
-
-  - Barre du haut améliorée : icône SVG combinée Pinceau + Aérographe sur
-    l'onglet Suite d'Atelier et nouveau bouton ❓ Aide ouvrant le guide clair
-    pour figurinistes débutants ou non-graphistes (#help-modal).
-  - 7 boutons ? contextuels et tactiles (sur chaque module des deux vues :
-    Teinte active, Harmonies, Neutralisation, OSL, Photo & Loupe, Convertisseur
-    Multi-Marques, Calculateur de Dilution) qui affichent/masquent un encart
-    explicatif directement dans la carte au clic ou au toucher.
-  - Infobulles #HEX pédagogiques : toutes les pastilles couleur affichent
-    désormais "Cliquer pour copier #XXXXXX (à coller dans le Convertisseur ou
-    votre carnet de recettes)".
